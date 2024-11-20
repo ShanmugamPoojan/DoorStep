@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoreStep - Household Services</title>
+    <link rel="stylesheet" href="home-style.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+
+
+    <header>
+        <h1>Welcome to DoreStep</h1>
+        <p>Your one-stop solution for household services</p>
+        <nav>
+            <ul>
+                <!-- <li><a href="#services">Services</a></li> -->
+                <li><button onclick="location.href='#services'">Services</button></li>
+                <li><button onclick="showUserLogin()">User Login</button></li>
+                <li><button onclick="location.href='#providerPrompt'">Become a Provider</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- User Login/Register Section -->
+        <section id="userSection" style="display: none;">
+            <!-- User Login Section -->
+            <div id="userLogin" class="section" style="display: none;">
+                <h2>User Login</h2>
+                <form id="userLoginForm">
+                    <input type="email" id="loginUserEmail" name="email" required placeholder="Email">
+
+                    <input type="password" id="loginUserPassword" name="password" required placeholder="Password">
+
+                    <button type="submit" onclick="handleUserLogin(event)">Login</button>
+                    <button onclick="hideUserSection()">Cancle</button>
+                </form>
+                <p>Don't have an account? <span class="link" onclick="showUserRegister()">Register here</span></p>
+            </div>
+
+            <!-- User Register Section -->
+            <div id="userRegister" class="section" style="display: none;">
+                <h2>User Register</h2>
+                <form id="userRegisterForm">
+                    <input type="text" id="userName" name="name" required placeholder="Name">
+
+                    <input type="email" id="userEmail" name="email" required placeholder="Email">
+
+                    <input type="tel" id="userPhone" name="phone" required placeholder="Phone number">
+
+                    <input type="text" id="userAddress" name="address" required placeholder="Address">
+
+                    <input type="password" id="userPassword" name="password" required placeholder="Password">
+
+                    <button type="submit">Register</button>
+                    <button onclick="hideUserSection()">Cancle</button>
+                    <p>Already have an account? <span class="link" onclick="showUserLogin()">Login here</span></p>
+                </form>
+            </div>
+        </section>
+
+        <!-- User Details Section -->
+        <section id="userDetails" style="display: none;">
+            <h2>Welcome, <span id="userNameDisplay"></span></h2>
+            <p>Email: <span id="userEmailDisplay"></span></p>
+            <p>Phone: <span id="userPhoneDisplay"></span></p>
+            <p>Address: <span id="userAddressDisplay"></span></p>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services">
+            <h2>Our Services</h2>
+            <input type="text" id="serviceSearch" placeholder="Search for services..." oninput="filterServices()" />
+            <div id="serviceGroups">
+                <!-- Dynamically populated service categories and services -->
+            </div>
+        </section>
+        <!-- Service Provider Prompt -->
+        <section id="providerPrompt" class="section" style="display: block;">
+            <h2>Interested in Providing Services?</h2>
+            <img src="images/serviceProvider.jpg" alt="providerImage">
+            <button onclick="showProviderLogin()">Become a Service Provider</button>
+        </section>
+    </main>
+
+    
+        <!-- Service Provider Login/Register Section -->
+        <section id="providerSection" style="display: none;">
+            <!-- Service Provider Login Section -->
+            <div id="providerLogin" class="section" style="display: none;">
+                <h2>Service Provider Login</h2>
+                <form id="providerLoginForm">
+                    <input type="email" id="loginProviderEmail" name="email" required placeholder="Email">
+
+                    <input type="password" id="loginProviderPassword" name="password" required placeholder="Password">
+
+                    <button type="submit">Login</button>
+                    <button onclick="hideProviderSection()">Cancle</button>
+                </form>
+                <p>Don't have an account? <span class="link" onclick="showProviderRegister()">Register here</span></p>
+            </div>
+
+            <!-- Service Provider Register Section -->
+            <div id="providerRegister" class="section" style="display: none;">
+                <h2>Service Provider Register</h2>
+                <form id="providerRegisterForm">
+                    <input type="text" id="providerName" name="name" required placeholder="Name">
+
+                    <input type="email" id="providerEmail" name="email" required placeholder="Email">
+
+                    <input type="tel" id="providerPhone" name="phone" required placeholder="Phone number">
+
+                    <input type="text" id="providerAddress" name="address" required placeholder="Address">
+
+                    <label for="providerService">Service:</label>
+                    <select id="providerService" name="service" required>
+                        <!-- Dynamically populated -->
+                    </select>
+
+                    <label for="providerPassword">Password:</label>
+                    <input type="password" id="providerPassword" name="password" required placeholder="Password">
+
+                    <button type="submit">Register</button>
+                    <button onclick="hideProviderSection()">Cancle</button>
+                    <p>Already have an account? <span class="link" onclick="showProviderLogin()">Login here</span></p>
+                </form>
+            </div>
+        </section>
+        <!-- Provider Details Section -->
+        <section id="providerDetails" style="display: none;">
+            <h2>Welcome, <span id="providerNameDisplay"></span></h2>
+            <p>Email: <span id="providerEmailDisplay"></span></p>
+            <p>Phone: <span id="providerPhoneDisplay"></span></p>
+            <p>Service: <span id="providerServiceDisplay"></span></p>
+        </section>
+
+    <footer id="footer">
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut et nemo vel accusantium, esse hic provident,
+            impedit officia quidem eaque modi quo, a iure delectus dignissimos fuga dolor repellat! Temporibus velit ad
+            excepturi aut illum eaque corporis earum rerum cumque porro aliquam quod voluptatibus eos sed, molestiae
+            deleniti dolorem neque.</p>
+    </footer>
+    <script src="home-script.js"></script>
+</body>
+
+</html>
