@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #services-container,
+        #providers-container,
+        #requests-container {
+            margin: 20px auto;
+            max-width: 800px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+
+        .item p {
+            margin: 5px 0;
+        }
+
+        .category {
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Service Details</h2>
+    <div id="services-container">
+        <h3>Services</h3>
+        <div id="services-list"></div>
+    </div>
+
+    <h2>Service Providers</h2>
+    <div id="providers-container">
+        <h3>Providers</h3>
+        <div id="providers-list"></div>
+    </div>
+
+    <h2>Service Requests</h2>
+    <div id="requests-container">
+        <h3>Requests</h3>
+        <div id="requests-list"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const servicesList = document.getElementById("services-list");
+            const providersList = document.getElementById("providers-list");
+            const requestsList = document.getElementById("requests-list");
+
+            // Fetch and display services
+            try {
+                const servicesResponse = await fetch("http://localhost:3000/services");
+                const services = await servicesResponse.json();
+
+                services.forEach(service => {
+                    const serviceItem = document.createElement("div");
+                    serviceItem.className = "item";
+                    serviceItem.innerHTML = `
+                <h3>${service.service_name}</h3>
+                <p class="category">Category: ${service.service_category || "N/A"}</p>
+                <p>${service.service_description}</p>
+            `;
+                    servicesList.appendChild(serviceItem);
+                });
+            } catch (error) {
+                console.error("Error fetching services:", error);
+            }
+
+            // Fetch and display providers
+            try {
+                const providersResponse = await fetch("http://localhost:3000/providers");
+                const providers = await providersResponse.json();
+
+                providers.forEach(provider => {
+                    const providerItem = document.createElement("div");
+                    providerItem.className = "item";
+                    providerItem.innerHTML = `
+                <h3>${provider.provider_name}</h3>
+                <p>Email: ${provider.email}</p>
+                <p>Phone: ${provider.phone_number}</p>
+                <p>Service ID: ${provider.service_id}</p>
+                <p>Rating: ${provider.rating || "N/A"}</p>
+            `;
+                    providersList.appendChild(providerItem);
+                });
+            } catch (error) {
+                console.error("Error fetching providers:", error);
+            }
+
+            // Fetch and display requests
+            try {
+                const requestsResponse = await fetch("http://localhost:3000/requests");
+                const requests = await requestsResponse.json();
+
+                requests.forEach(request => {
+                    const requestItem = document.createElement("div");
+                    requestItem.className = "item";
+                    requestItem.innerHTML = `
+                <h3>Request ID: ${request.request_id}</h3>
+                <p>User ID: ${request.user_id}</p>
+                <p>Provider ID: ${request.provider_id}</p>
+                <p>Service ID: ${request.service_id}</p>
+                <p>Status: ${request.request_status}</p>
+                <p>Additional Notes: ${request.additional_notes || "N/A"}</p>
+            `;
+                    requestsList.appendChild(requestItem);
+                });
+            } catch (error) {
+                console.error("Error fetching requests:", error);
+            }
+        });
+
+    </script>
+</body>
+
+</html>

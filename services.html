@@ -3,14 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="services-style.css">
     <title>Service Details</title>
-    
+    <link rel="stylesheet" href="services-style.css">
+    <!-- <link rel="stylesheet" href="home-style.css"> -->
 </head>
 <body>
-    <h1 id="serviceName"></h1>
-    <p id="serviceDescription"></p>
+    <header>
+        <!-- <h1>Welcome to DoorStep</h1> -->
+        <!-- <p>Your one-stop solution for household services</p> -->
+        <div>
+            <p id="logo">DoorStep</p>
+        </div>
+        <nav>
+            <ul>
+                <!-- <li><a href="#services">Services</a></li> -->
+                <li><button class="button" onclick="location.href='index.html'">Services</button></li>
+                <li><button class="button" onclick= "showLoginPopup()">User Login</button></li>
+                <li><button class="button" onclick="location.href='#providerPrompt'">Service Provider</button></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <!-- User Login/Register Section -->
+        <section id="userSection">
+            <!-- Overlay -->
+            <div id="overlay" class="overlay" onclick="closeLoginPopup()"></div>
+            <!-- User Login Section -->
+            <div id="userLoginPopup" class="popup">
+                <div id="userLogin" class="section">
+                    <h2>User Login</h2>
+                    <form id="userLoginForm" onsubmit="handleUserLogin(event)">
+                        <input type="email" id="loginUserEmail" name="email" required placeholder="Email">
+                        <input type="password" id="loginUserPassword" name="password" required placeholder="Password">
+                        <button type="submit" class="button">Login</button>
+                        <button onclick="closeLoginPopup()" class="button">Cancle</button>
+                        <p>Don't have an account? <span class="link" onclick="showUserRegister()">Register here</span>
+                        </p>
+                    </form>
+                </div>
+                <div id="userRegister" class="section" style="display: none;">
+                    <h2>User Register</h2>
+                    <form id="userRegisterForm" onsubmit="handleUserRegister(event)">
+                        <input type="text" id="userName" name="name" required placeholder="Name">
+                        <input type="email" id="userEmail" name="email" required placeholder="Email">
+                        <input type="tel" id="userPhone" name="phone" required placeholder="Phone number">
+                        <input type="text" id="userAddress" name="address" required placeholder="Address">
+                        <input type="password" id="userPassword" name="password" required placeholder="Password">
+                        <button type="submit" class="button">Register</button>
+                        <button onclick="closeLoginPopup()" class="button">Cancle</button>
+                        <p>Already have an account? <span class="link" onclick="showUserLogin()">Login here</span></p>
+                    </form>
+                </div>
+            </div>
+        </section>
 
+        <section id="serviceDetails" class="section">
+            <h1>Service Details</h1>
+            <div id="detailsContainer">
+                <!-- Service details will be dynamically populated -->
+            </div>
+        </section>
+        <section id="providerDetails" class="section">
+            <h1>Service Providers</h1>
+            <div id="providersContainer">
+                <!-- Providers will be dynamically populated -->
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div id="footer-content">
+            <div>
+                <h3>Lorem ipsum dolor sit amet.</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+            <div>
+                <h3>Lorem ipsum dolor sit amet.</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+        </div>
+        <div id="footer-logo">
+            <p>Made with love by DoorStep</p>
+        </div>
+    </footer>
+
+    <script src="login.js"></script>
     <script src="services-script.js"></script>
 </body>
 </html>
+

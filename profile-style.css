@@ -1,12 +1,13 @@
-
-:root{
+:root {
     --primary: #0073e6;
     --hover: #0056b3;
 }
-*{
-    box-sizing: border-box;
+
+* {
     scroll-behavior: smooth;
+    box-sizing: border-box;
 }
+
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
@@ -19,20 +20,21 @@ body {
 header {
     margin-bottom: 20px;
     text-align: center;
-    padding:  20px 40px;
+    padding: 20px 40px;
     /* background: #bbdeff; */
     color: var(--primary);
     display: flex;
     justify-content: space-between;
 }
 
-#logo{
+#logo {
     font-size: 50px;
     margin: 0;
     padding: 0;
     /* color: #0073e6; */
     font-weight: bolder;
 }
+
 nav {
     display: flex;
     justify-content: center;
@@ -50,8 +52,7 @@ nav ul li {
     margin: 0 10px;
 }
 
-.button{
-    margin: 5px;
+.button {
     padding: 10px;
     text-decoration: none;
     color: var(--primary);
@@ -63,12 +64,14 @@ nav ul li {
     font-weight: bold;
     transition: color 0.3s;
 }
-.button:hover{
+
+.button:hover {
     color: #fff;
     /* border: 2px solid #fff; */
     background-color: var(--primary);
 }
-.button:active{
+
+.button:active {
     background-color: var(--hover);
 }
 
@@ -132,77 +135,162 @@ input, select{
     text-decoration: none;
 }
 
+
+/* Center content */
 .section {
-    margin: 20px;
-    padding: 20px;
-    background: white;
+    text-align: center;
+}
+
+
+/* User/Provider Details Section */
+#userDetails,
+#providerDetails {
+    margin-top: 20px;
+    padding: 15px;
+    background: #eef;
+    border: 1px solid #ccc;
     border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+section {
+    /* margin: 20px; */
+    /* padding: 20px; */
+    /* background: white; */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  */
+} 
+
+.section {
+    text-align: center;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 100%;
+    margin: 20px auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#providerDetails{
+#userRequests{
     text-align: center;
-
-    /* position: fixed;
-    top: 0;
-    left: 0; */
 }
-
-#providersContainer{
+#requestsList{
     display: flex;
     justify-content: center;
-    align-items: center;
     flex-wrap: wrap;
     gap: 20px;
-    /* flex-direction: row; */
 }
 
-#detailsContainer, #providersContainer {
-    margin-top: 20px;
-}
-
-.provider-card {
-    width: 400px;
+.request-item {
+    background: #f9f9f9;
     border: 1px solid #ddd;
     padding: 15px;
-    margin-bottom: 15px;
+    margin: 10px 0;
     border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    background: #fff;
-    /* align-items: center; */
+}
+
+.request-item img {
+    width: 200px;
+    object-fit: cover;
     text-align: center;
 }
 
-.provider-card p {
+.request-item h4 {
+    margin: 0 0 10px;
+}
+
+.request-item button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.request-item button:hover {
+    background-color: #e60000;
+}
+
+.services-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
     text-align: left;
 }
-.provider-card h3 {
-    margin-top: 0;
+
+.services-table th,
+.services-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
-.provider-card img {
+.services-table th {
+    background-color: #7ebcff;
+    font-weight: bold;
+    text-align: center;
+}
+
+.services-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.services-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.services-table td {
+    text-align: center;
+}
+
+#editUserForm * {
+    margin: 5px 10px;
+}
+
+.editButtons {
+    text-align: center;
+}
+
+.editButtons button {
+    margin: 10px;
+    padding: 10px;
     width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    margin-top: 10px;
-    object-fit: cover;
-}
-.provider-card:hover{
-    box-shadow: 0 0 10px gray;
+    text-decoration: none;
+    color: white;
+    border: 1px solid var(--primary);
+    border-radius: 10px;
+    background-color: var(--primary);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s;
 }
 
-#footer{
+.editButtons button:hover {
+    background-color: var(--hover);
+}
+
+#footer {
     margin-top: 40px;
     padding: 50px;
     color: white;
     background: #4c4c4c;
 }
-#footer > div{
+
+#footer>div {
     margin: 20px 0;
 }
-#footer-logo{
+
+#footer-logo {
     text-align: center;
 }
+
 #footer-content {
     display: flex;
     justify-content: space-around;
