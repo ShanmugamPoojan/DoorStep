@@ -34,7 +34,6 @@
 
     <main>
         <!-- User Login/Register Section -->
-
         <section id="userSection">
             <!-- Overlay -->
             <div id="overlay" class="overlay" onclick="closeLoginPopup()"></div>
@@ -66,38 +65,15 @@
                 </div>
             </div>
 
-            <!-- User Login Section -->
-            <!-- <div id="userLogin" class="section" style="display: block;">
-                <h2>User Login</h2>
-                <form id="userLoginForm" onsubmit="handleUserLogin(event)">
-                    <input type="email" id="loginUserEmail" name="email" required placeholder="Email">
-                    <input type="password" id="loginUserPassword" name="password" required placeholder="Password">
-                    <button type="submit" class="button">Login</button>
-                    <p>Don't have an account? <span class="link" onclick="showUserRegister()">Register here</span></p>
-
-                </form>
-            </div>
-            User Register Section
-            <div id="userRegister" class="section" style="display: none;">
-                <h2>User Register</h2>
-                <form id="userRegisterForm" onsubmit="handleUserRegister(event)">
-                    <input type="text" id="userName" name="name" required placeholder="Name">
-                    <input type="email" id="userEmail" name="email" required placeholder="Email">
-                    <input type="tel" id="userPhone" name="phone" required placeholder="Phone number">
-                    <input type="text" id="userAddress" name="address" required placeholder="Address">
-                    <input type="password" id="userPassword" name="password" required placeholder="Password">
-                    <button type="submit" class="button">Register</button>
-                    <button onclick="hideUserSection()">Cancle</button>
-                    <p>Already have an account? <span class="link" onclick="showUserLogin()">Login here</span></p>
-                </form>
-            </div> -->
-
             <!-- User Details Section -->
+             <div class="section" id="loginAlert" style="display: block;">
+                <h2>Please login</h2>
+             </div>
             <div id="userDetails" style="display: none;">
                 <h2>Welcome, <span id="userNameDisplay"></span></h2>
-                <p>Email: <span id="userEmailDisplay"></span></p>
-                <p>Phone: <span id="userPhoneDisplay"></span></p>
-                <p>Address: <span id="userAddressDisplay"></span></p>
+                <p><b>Email:</b> <span id="userEmailDisplay"></span></p>
+                <p><b>Phone:</b> <span id="userPhoneDisplay"></span></p>
+                <p><b>Address:</b> <span id="userAddressDisplay"></span></p>
                 <button onclick="showEditUserDetails()" class="button">Edit Details</button>
 
                 <!-- Edit User Form -->
@@ -115,16 +91,16 @@
             </div>
         </section>
 
-        <section id="userRequests" style="display: none;">
-            <h3>Your Service Requests</h3>
+        <section id="userRequests" class="section" style="display: none;">
+            <h2>Your Service Requests</h2>
             <div id="requestsList">
                 <p>Loading requests...</p>
             </div>
         </section>
-        <section id="completedServices" style="display: none;">
+        <section id="completedServices" class="section" style="display: none;">
             <h2>Service History</h2>
             <div id="completedServicesList">
-
+                <p>Loading requests...</p>
             </div>
         </section>
 
@@ -178,7 +154,7 @@
         <!-- Provider Details Section  -->
         <section id="providerDetails" style="display: none;">
             <h2>Welcome, <span id="providerNameDisplay"></span></h2>
-            <img src="<span id='providerImageDisplay'></span>" alt="image">
+            <!-- <img src="<span id='providerImageDisplay'></span>" alt="image"> -->
             <p>Email: <span id="providerEmailDisplay"></span></p>
             <p>Phone: <span id="providerPhoneDisplay"></span></p>
             <p>Service: <span id="providerServiceDisplay"></span></p>
@@ -210,7 +186,7 @@
         </div>
     </footer>
 
-    <script src="login.js"></script>
+    <!-- <script src="login.js"></script> -->
     <script src="profile-script.js"></script>
 </body>
 

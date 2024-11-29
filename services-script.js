@@ -11,7 +11,6 @@ function displayServiceDetails(serviceId) {
                 <h2>${service.service_name}</h2>
                 <p><strong>Category:</strong> ${service.service_category || "Not categorized"}</p>
                 <p><strong>Description:</strong> ${service.service_description || "No description available."}</p>
-                <p><strong>Created At:</strong> ${new Date(service.created_at).toLocaleString()}</p>
             `;
         })
         .catch(err => {
