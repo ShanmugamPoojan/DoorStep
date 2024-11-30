@@ -6,9 +6,9 @@
 *{
     box-sizing: border-box;
     scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif;
 }
 body {
-    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     /* background: #f4f4f4; */
@@ -191,6 +191,51 @@ input, select{
     box-shadow: 0 0 10px gray;
 }
 
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100vw;
+    /* height: 100vh; */
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.modal-content option, textarea, button{
+    font-size: larger;
+    resize: none;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    /* border: 2px solid var(--primary); */
+    border-radius: 10px;
+}
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 #footer{
     margin-top: 40px;
     padding: 50px;

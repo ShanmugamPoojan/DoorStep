@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="services-style.css">
     <!-- <link rel="stylesheet" href="home-style.css"> -->
 </head>
+
 <body>
     <header>
         <!-- <h1>Welcome to DoorStep</h1> -->
@@ -18,12 +20,12 @@
             <ul>
                 <!-- <li><a href="#services">Services</a></li> -->
                 <li><button class="button" onclick="location.href='index.html'">Services</button></li>
-                <li><button class="button" onclick= "showLoginPopup()">User Login</button></li>
-                <li><button class="button" onclick="location.href='#providerPrompt'">Service Provider</button></li>
+                <li><button class="button" onclick="showLoginPopup()">User Login</button></li>
+                <!-- <li><button class="button" onclick="location.href='#providerPrompt'">Service Provider</button></li> -->
             </ul>
         </nav>
     </header>
-    
+
     <main>
         <!-- User Login/Register Section -->
         <section id="userSection">
@@ -70,6 +72,28 @@
                 <!-- Providers will be dynamically populated -->
             </div>
         </section>
+
+        <!-- Pop-up Modal for booking -->
+        <div id="bookingModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" id="closeModal">&times;</span>
+                <h2>Book Service</h2>
+                <form id="bookingForm">
+                    <select id="availableTimings" required>
+                        <option value="">Select a time</option>
+                        <option value="9-12">9 AM - 12 PM</option>
+                        <option value="12-15">12 PM - 3 PM</option>
+                        <option value="15-18">3 PM - 6 PM</option>
+                        <option value="18-21">6 PM - 9 PM</option>
+                    </select>
+
+                    <textarea id="additionalNotes" rows="4" placeholder="Enter any additional notes..."></textarea>
+
+                    <button type="submit" id="submitBooking" class="button">Book Service</button>
+                </form>
+            </div>
+        </div>
+
     </main>
 
     <footer id="footer">
@@ -97,5 +121,5 @@
     <script src="login.js"></script>
     <script src="services-script.js"></script>
 </body>
-</html>
 
+</html>

@@ -27,7 +27,7 @@
                 <!-- <li><a href="#services">Services</a></li> -->
                 <li><button class="button" onclick="window.location.href='index.html'">Services</button></li>
                 <li><button class="button" onclick="showLoginPopup()">User Login</button></li>
-                <li><button class="button" onclick="showProviderLogin()">Provider Login</button></li>
+                <!-- <li><button class="button" onclick="showProviderLogin()">Provider Login</button></li> -->
             </ul>
         </nav>
     </header>
@@ -38,7 +38,7 @@
             <!-- Overlay -->
             <div id="overlay" class="overlay" onclick="closeLoginPopup()"></div>
             <!-- User Login Section -->
-            <div id="userLoginPopup" class="popup">
+            <div id="userLoginPopup" class="popup section" style="display: none;">
                 <div id="userLogin" class="section">
                     <h2>User Login</h2>
                     <form id="userLoginForm" onsubmit="handleUserLogin(event)">
@@ -66,9 +66,9 @@
             </div>
 
             <!-- User Details Section -->
-             <div class="section" id="loginAlert" style="display: block;">
+            <div class="section" id="loginAlert" style="display: block;">
                 <h2>Please login</h2>
-             </div>
+            </div>
             <div id="userDetails" style="display: none;">
                 <h2>Welcome, <span id="userNameDisplay"></span></h2>
                 <p><b>Email:</b> <span id="userEmailDisplay"></span></p>
@@ -102,63 +102,6 @@
             <div id="completedServicesList">
                 <p>Loading requests...</p>
             </div>
-        </section>
-
-
-        <section id="providerSection" style="display: none;">
-
-            <div id="providerLogin" class="section" style="display: none;">
-                <h2>Service Provider Login</h2>
-                <form id="providerLoginForm" onsubmit="handleProviderLogin(event)">
-                    <input type="email" id="loginProviderEmail" name="email" required placeholder="Email">
-
-                    <input type="password" id="loginProviderPassword" name="password" required placeholder="Password">
-
-                    <button type="submit" class="button">Login</button>
-                    <button onclick="hideProviderSection()" class="button">Cancle</button>
-                </form>
-                <p>Don't have an account? <span class="link" onclick="showProviderRegister()">Register here</span></p>
-            </div>
-
-            <div id="providerRegister" class="section" style="display: none;">
-                <h2>Service Provider Register</h2>
-                <form id="providerRegisterForm" onsubmit="handleProviderRegister(event)">
-                    <input type="text" id="providerName" name="name" required placeholder="Name">
-
-                    <input type="email" id="providerEmail" name="email" required placeholder="Email">
-
-                    <input type="tel" id="providerPhone" name="phone" required placeholder="Phone number">
-
-                    <input type="text" id="providerAddress" name="address" required placeholder="Address">
-
-                    <label for="providerCategory">Service Category:</label>
-                    <select id="providerCategory" name="category" required>
-
-                    </select>
-
-                    <p>Or add a new category:</p>
-                    <input type="text" id="newCategory" name="newCategory" placeholder="New Category (optional)" />
-
-                    <p>Service Provided:</p>
-                    <input type="text" id="providerService" name="service" required placeholder="Service Name" />
-
-                    <input type="password" id="providerPassword" name="password" required placeholder="Password">
-
-                    <button type="submit" class="button">Register</button>
-                    <button onclick="hideProviderSection()" class="button">Cancel</button>
-                    <p>Already have an account? <span class="link" onclick="showProviderLogin()">Login here</span></p>
-                </form>
-            </div>
-
-        </section>
-        <!-- Provider Details Section  -->
-        <section id="providerDetails" style="display: none;">
-            <h2>Welcome, <span id="providerNameDisplay"></span></h2>
-            <!-- <img src="<span id='providerImageDisplay'></span>" alt="image"> -->
-            <p>Email: <span id="providerEmailDisplay"></span></p>
-            <p>Phone: <span id="providerPhoneDisplay"></span></p>
-            <p>Service: <span id="providerServiceDisplay"></span></p>
-            <button onclick="handleProviderLogout()">Logout</button>
         </section>
 
     </main>

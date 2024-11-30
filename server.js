@@ -146,13 +146,85 @@ app.get('/providers/:id', async (req, res) => {
 });
 
 
-app.get('/categories', async (req, res) => {
+// app.get('/categories', async (req, res) => {
+//     try {
+//         const [categories] = await db.query('SELECT * FROM service_categories');
+//         res.json(categories); // Return valid JSON
+//     } catch (error) {
+//         console.error('Error fetching categories:', error);
+//         res.status(500).json({ error: 'Failed to fetch categories' });
+//     }
+// });
+// Fetch available service categories
+app.get('/service-categories', (req, res) => {
+    const query = 'SELECT DISTINCT service_category FROM services_provided';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching service categories:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+
+        // Extract distinct categories from results
+        const categories = results.map(row => row.service_category);
+
+        res.json({ success: true, categories });
+    });
+});
+
+// Register a service provider
+app.post('/providers/register', async (req, res) => {
+    const { provider_name, email, phone_number, address, category, newCategory, service_name, password } = req.body;
+
     try {
-        const [categories] = await db.query('SELECT * FROM service_categories');
-        res.json(categories); // Return valid JSON
+        // If a new category is provided, insert it into the database
+        let categoryToUse = category;
+        if (newCategory) {
+            categoryToUse = newCategory;
+        }
+
+        // Insert service provider and the service they provide into the database
+        const providerQuery = `
+            INSERT INTO service_providers (provider_name, email, phone_number, address, service_category, password)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        
+        db.query(
+            providerQuery,
+            [provider_name, email, phone_number, address, categoryToUse, password],
+            (err, result) => {
+                if (err) {
+                    console.error("Error registering provider:", err);
+                    return res.status(500).json({ success: false, message: 'Failed to register service provider.' });
+                }
+
+                // After registering the provider, insert the service into the services_provided table
+                const serviceQuery = `
+                    INSERT INTO services_provided (service_name, service_category, provider_id)
+                    VALUES (?, ?, ?)
+                `;
+
+                db.query(
+                    serviceQuery,
+                    [service_name, categoryToUse, result.insertId], // Use the provider_id (insertId from provider registration)
+                    (err, serviceResult) => {
+                        if (err) {
+                            console.error("Error registering service:", err);
+                            return res.status(500).json({ success: false, message: 'Failed to register service.' });
+                        }
+
+                        res.status(201).json({
+                            success: true,
+                            message: "Service provider registered successfully.",
+                            provider_id: result.insertId,
+                        });
+                    }
+                );
+            }
+        );
     } catch (error) {
-        console.error('Error fetching categories:', error);
-        res.status(500).json({ error: 'Failed to fetch categories' });
+        console.error("Error during provider registration:", error);
+        res.status(500).json({ success: false, message: "Failed to register service provider." });
     }
 });
 
@@ -206,6 +278,27 @@ app.post("/users/login", async (req, res) => {
         res.status(500).json({ error: "Failed to log in user." });
     }
 });
+
+// Route to fetch user details by ID
+app.get('/user-details/:userId', (req, res) => {
+    const { userId } = req.params;
+
+    // Query to fetch user details
+    const query = 'SELECT name, email, phone_number, address FROM users WHERE user_id = ?';
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error('Error fetching user details:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        res.json({ success: true, user: results[0] });
+    });
+});
+
 
 // Update User Details
 app.put("/users/:id", async (req, res) => {
@@ -395,4 +488,113 @@ app.post('/providers/login', async (req, res) => {
         console.error("Error during provider login:", error);
         res.status(500).json({ error: "Failed to login service provider." });
     }
+});
+
+// Fetch all services
+app.get('/admin/services', (req, res) => {
+    const query = 'SELECT * FROM services_provided';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching services:', err); // Logs detailed error
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+        res.json({ success: true, services: results });
+    });
+});
+
+
+// Fetch all service providers
+app.get('/admin/service-providers', (req, res) => {
+    const query = 'SELECT * FROM service_providers';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching service providers:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+        res.json({ success: true, providers: results });
+    });
+});
+
+// Fetch all users
+app.get('/admin/users', (req, res) => {
+    const query = 'SELECT * FROM users';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching users:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+        res.json({ success: true, users: results });
+    });
+});
+
+// Fetch all service requests
+app.get('/admin/service-requests', (req, res) => {
+    const query = 'SELECT * FROM service_requests';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching service requests:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+        res.json({ success: true, requests: results });
+    });
+});
+
+// Delete service
+app.delete('/admin/services/:serviceId', (req, res) => {
+    const { serviceId } = req.params;
+
+    const query = 'DELETE FROM services_provided WHERE service_id = ?';
+    db.query(query, [serviceId], (err, result) => {
+        if (err) {
+            console.error('Error deleting service:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+        res.json({ success: true, message: 'Service deleted successfully' });
+    });
+});
+
+// Delete service provider
+app.delete('/admin/service-providers/:providerId', (req, res) => {
+    const { providerId } = req.params;
+
+    const query = 'DELETE FROM service_providers WHERE provider_id = ?';
+    db.query(query, [providerId], (err, result) => {
+        if (err) {
+            console.error('Error deleting service provider:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+        res.json({ success: true, message: 'Service provider deleted successfully' });
+    });
+});
+
+// Delete user
+app.delete('/admin/users/:userId', (req, res) => {
+    const { userId } = req.params;
+
+    const query = 'DELETE FROM users WHERE user_id = ?';
+    db.query(query, [userId], (err, result) => {
+        if (err) {
+            console.error('Error deleting user:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+        res.json({ success: true, message: 'User deleted successfully' });
+    });
+});
+
+// Delete service request
+app.delete('/admin/service-requests/:requestId', (req, res) => {
+    const { requestId } = req.params;
+
+    const query = 'DELETE FROM service_requests WHERE request_id = ?';
+    db.query(query, [requestId], (err, result) => {
+        if (err) {
+            console.error('Error deleting service request:', err);
+            return res.status(500).json({ success: false, message: 'Server error' });
+        }
+        res.json({ success: true, message: 'Service request deleted successfully' });
+    });
 });
