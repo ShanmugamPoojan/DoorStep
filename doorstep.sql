@@ -42,7 +42,7 @@ CREATE TABLE service_requests (
     service_id INT NOT NULL,
     request_status ENUM('Pending', 'In Progress', 'Completed', 'Cancelled') DEFAULT 'Pending',
     request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    available_timings ENUM('9-12', '12-15', '15-18', '18-21') NOT NULL,
+    available_timings ENUM('9-12', '12-15', '15-18', '18-21', 'anytime') NOT NULL,
     additional_notes TEXT,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (provider_id) REFERENCES service_providers(provider_id) ON DELETE CASCADE,
@@ -126,6 +126,10 @@ SELECT * FROM users;
 SELECT * FROM service_requests;
 SELECT * FROM admin;
 
+SELECT name, email, phone_number, address FROM users WHERE user_id = 3;
+
+SELECT * FROM users WHERE user_id = 1;
+
 SELECT provider_name, email, phone_number, address, profile_picture, rating FROM service_providers WHERE service_id = 1;
 
 INSERT INTO service_providers (provider_name, email, password, phone_number, address, service_id, profile_picture, rating) 
@@ -140,70 +144,7 @@ SELECT sr.request_id, sr.request_status, sr.request_date, sr.additional_notes,
              JOIN service_providers sp ON sr.provider_id = sp.provider_id
              JOIN services_provided s ON sr.service_id = s.service_id
              WHERE sr.user_id = 1;
-             
-INSERT INTO services_provided (service_name, service_description, service_category) VALUES
-('House Cleaning', 'Professional cleaning services for your home, including dusting, vacuuming, and mopping.', 'Cleaning'),
-('Plumbing', 'Repair and maintenance services for leaking pipes, clogged drains, and more.', 'Maintenance'),
-('Electrical Repairs', 'Fixing electrical issues, installing new appliances, and ensuring safety.', 'Maintenance'),
-('Gardening', 'Lawn mowing, planting, and garden maintenance services.', 'Outdoor Services'),
-('Pest Control', 'Eliminating pests like termites, rodents, and insects from your premises.', 'Sanitation'),
-('Cooking Services', 'Personal chefs and home-cooking services for your daily needs.', 'Food Services'),
-('Tutoring', 'Educational support for students in various subjects.', 'Education'),
-('Babysitting', 'Childcare services provided by experienced and trained professionals.', 'Family Services'),
-('Carpentry', 'Custom furniture building, repairs, and woodworking services.', 'Home Improvement'),
-('Painting', 'Interior and exterior painting services for homes and offices.', 'Home Improvement'),
-('AC Repair', 'Air conditioning repair, installation, and maintenance services.', 'Maintenance'),
-('Laundry Service', 'Washing, drying, and ironing clothes with pickup and delivery options.', 'Cleaning'),
-('Pet Grooming', 'Professional grooming services for pets, including baths, haircuts, and nail trimming.', 'Pet Services'),
-('Home Security Installation', 'Setup and maintenance of security cameras and alarm systems.', 'Security'),
-('Fitness Training', 'Personal fitness training sessions tailored to individual goals.', 'Wellness'),
-('Event Planning', 'Organizing and managing personal and corporate events.', 'Event Management'),
-('Photography', 'Professional photography services for events, portraits, and more.', 'Media Services'),
-('Moving and Packing', 'Assistance with packing, moving, and unpacking household items.', 'Logistics'),
-('IT Support', 'Troubleshooting computer and network issues for homes and businesses.', 'Technology Services'),
-('Car Wash', 'On-site car washing and detailing services for your convenience.', 'Automobile Services'),
-('Appliance Repair', 'Fixing household appliances like refrigerators, washing machines, and ovens.', 'Maintenance'),
-('Yoga Classes', 'Yoga sessions for improving flexibility, strength, and relaxation.', 'Wellness'),
-('Music Lessons', 'Teaching various musical instruments and vocal training.', 'Education'),
-('Home Renovation', 'Complete home remodeling and renovation services.', 'Home Improvement'),
-('Massage Therapy', 'Relaxation and therapeutic massages for stress relief and wellness.', 'Wellness'),
-('Courier Service', 'Reliable pickup and delivery services for documents and packages.', 'Logistics'),
-('Interior Design', 'Designing and decorating interiors to match your style and preferences.', 'Home Improvement'),
-('Personal Shopping', 'Assistance with shopping for groceries, clothes, and other items.', 'Lifestyle Services'),
-('Elderly Care', 'Compassionate caregiving services for elderly individuals.', 'Family Services'),
-('Tailoring Services', 'Custom tailoring and alteration services for all types of clothing.', 'Fashion Services');
 
-INSERT INTO services_provided (service_name, service_description, service_category) VALUES
-('House Cleaning', 'Professional cleaning services for your home, including dusting, vacuuming, and mopping.', 'Cleaning'),
-('Plumbing', 'Repair and maintenance services for leaking pipes, clogged drains, and more.', 'Maintenance'),
-('Electrical Repairs', 'Fixing electrical issues, installing new appliances, and ensuring safety.', 'Maintenance'),
-('Gardening', 'Lawn mowing, planting, and garden maintenance services.', 'Outdoor Services'),
-('Pest Control', 'Eliminating pests like termites, rodents, and insects from your premises.', 'Sanitation'),
-('Cooking Services', 'Personal chefs and home-cooking services for your daily needs.', 'Food Services'),
-('Tutoring', 'Educational support for students in various subjects.', 'Education'),
-('Babysitting', 'Childcare services provided by experienced and trained professionals.', 'Family Services'),
-('Carpentry', 'Custom furniture building, repairs, and woodworking services.', 'Home Improvement'),
-('Painting', 'Interior and exterior painting services for homes and offices.', 'Home Improvement'),
-('AC Repair', 'Air conditioning repair, installation, and maintenance services.', 'Maintenance'),
-('Laundry Service', 'Washing, drying, and ironing clothes with pickup and delivery options.', 'Cleaning'),
-('Pet Grooming', 'Professional grooming services for pets, including baths, haircuts, and nail trimming.', 'Pet Services'),
-('Home Security Installation', 'Setup and maintenance of security cameras and alarm systems.', 'Security'),
-('Fitness Training', 'Personal fitness training sessions tailored to individual goals.', 'Wellness'),
-('Event Planning', 'Organizing and managing personal and corporate events.', 'Event Management'),
-('Photography', 'Professional photography services for events, portraits, and more.', 'Media Services'),
-('Moving and Packing', 'Assistance with packing, moving, and unpacking household items.', 'Logistics'),
-('IT Support', 'Troubleshooting computer and network issues for homes and businesses.', 'Technology Services'),
-('Car Wash', 'On-site car washing and detailing services for your convenience.', 'Automobile Services'),
-('Appliance Repair', 'Fixing household appliances like refrigerators, washing machines, and ovens.', 'Maintenance'),
-('Yoga Classes', 'Yoga sessions for improving flexibility, strength, and relaxation.', 'Wellness'),
-('Music Lessons', 'Teaching various musical instruments and vocal training.', 'Education'),
-('Home Renovation', 'Complete home remodeling and renovation services.', 'Home Improvement'),
-('Massage Therapy', 'Relaxation and therapeutic massages for stress relief and wellness.', 'Wellness'),
-('Courier Service', 'Reliable pickup and delivery services for documents and packages.', 'Logistics'),
-('Interior Design', 'Designing and decorating interiors to match your style and preferences.', 'Home Improvement'),
-('Personal Shopping', 'Assistance with shopping for groceries, clothes, and other items.', 'Lifestyle Services'),
-('Elderly Care', 'Compassionate caregiving services for elderly individuals.', 'Family Services'),
-('Tailoring Services', 'Custom tailoring and alteration services for all types of clothing.', 'Fashion Services');
 INSERT INTO services_provided (service_name, service_description, service_category) VALUES
 ('House Cleaning', 'Professional cleaning services for your home, including dusting, vacuuming, and mopping.', 'Cleaning'),
 ('Plumbing', 'Repair and maintenance services for leaking pipes, clogged drains, and more.', 'Maintenance'),

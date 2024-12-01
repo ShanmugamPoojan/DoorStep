@@ -38,45 +38,25 @@ function getQueryParam(param) {
     return urlParams.get(param);
 }
 
-// document.addEventListener("DOMContentLoaded", () => {
-    
+document.addEventListener("DOMContentLoaded", () => {
     // fetchUserRequests(1);
-    // const userID = getQueryParam("userId"); // Note: Query parameter is case-sensitive
-    // console.log("Extracted userID from URL:", userID);
+    const userID = getQueryParam("userId");
 
-    //     if (userID) {
-    //         // Call displayUserDetails if userID exists
-    //         console.log("aaa");
-    //         displayUserDetails(userID);
-    //         document.getElementById("loginAlert").style.display = "none";
-    //     } else {
-    //         // Show alert if userID is not found in URL
-    //         document.getElementById("loginAlert").style.display = "block";
-    //         console.warn("No userID found in URL. Prompting user to log in.");
-    //     }
-// });
+    if (userID) {
+        console.log(userID);
+        document.getElementById("login-button").style.display = "none";
+        document.getElementById("logout-button").style.display = "block";
+    
+        document.getElementById("loginAlert").style.display = "none";
+        fetchUserDetails(userID);
+        fetchUserRequests(userID);
+        fetchCompletedServices(userID);
+    } else {
+        // alert("login");
+        console.log(userID);
 
-
-// Function to check user authentication
-// function checkUserAuthentication() {
-//     let userID = getQueryParam("userID");
-
-//     if (!userID) {
-//         // Fall back to localStorage if not in URL
-//         userID = localStorage.getItem("userID");
-//     }
-
-//     if (!userID) {
-//         // Redirect to login or show a message
-//         alert("Please log in to continue.");
-//         showLoginPopup(); // Trigger the login popup
-//     } else {
-//         console.log("Authenticated User ID:", userID);
-//         // Proceed with fetching user details or other operations
-//         fetchUserDetails(userID);
-//     }
-// }
-
+    }
+});
 
 // Function to handle user login
 async function handleUserLogin(event) {
@@ -97,21 +77,20 @@ async function handleUserLogin(event) {
         if (response.ok) {
             // Store userID in localStorage
             const userID = data.user.user_id;
-            // localStorage.setItem("userID", userID);
             console.log("Logged-in User ID:", userID);
-
-            // window.location.href = `profile.html?&userId=${userID}`;
 
             const newUrl = `${window.location.origin}${window.location.pathname}?userId=${userID}`;
             window.history.pushState({ path: newUrl }, "", newUrl);
+            window.location.reload();
 
             // alert("Login successful");
             document.getElementById("loginAlert").style.display = "none";
 
             closeLoginPopup();
             // Call displayUserDetails with user data
-            displayUserDetails(userID);
             displayUserDetails(data.user);
+            fetchUserRequests(userID);
+            fetchCompletedServices(userID);
         } else {
             alert(data.error || "Login failed. Please check your credentials.");
         }
@@ -121,118 +100,50 @@ async function handleUserLogin(event) {
     }
 }
 
-function displayUserDetails(user) { 
+// fetch
+async function fetchUserDetails(userId) {
+    try {
+        const response = await fetch(`http://localhost:3000/user-details/${userId}`);
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            displayUserDetails(data.user);
+        } else {
+            console.error("Error fetching user details:", data.message || "Unknown error");
+            alert(data.message || "Failed to fetch user details.");
+        }
+    } catch (error) {
+        console.error("Error fetching user details:", error);
+        alert("An error occurred while fetching user details.");
+    }
+}
+function displayUserDetails(user) {
+    if (!user) {
+        alert("User details are missing.");
+        return;
+    }
+
+    // Hide login and registration sections
     document.getElementById("userLogin").style.display = "none";
     document.getElementById("userRegister").style.display = "none";
+
+    // Display user details section
     document.getElementById("userDetails").style.display = "block";
     document.getElementById("userRequests").style.display = "block";
     document.getElementById("completedServices").style.display = "block";
 
+    // Populate user details
     document.getElementById("userNameDisplay").textContent = user.name;
-    document.getElementById("userEmailDisplay").textContent = user.email;
-    document.getElementById("userPhoneDisplay").textContent = user.phone_number;
-    document.getElementById("userAddressDisplay").textContent = user.address;
-
-    const userId = localStorage.getItem('userID');
-    fetchUserRequests(userId);
-    fetchCompletedServices(userId); // Fetch user requests when details are displayed
-}
-// Function to display user details
-// async function displayUserDetails(userID) {
-//     console.log("Fetching details for User ID:", userID);
-
-//     try {
-//         // Fetch user details from the server
-//         const response = await fetch(`http://localhost:3000/user-details/${userID}`);
-//         const data = await response.json();
-
-//         if (response.ok) {
-//             const user = data.user;
-
-//             // Hide login and registration sections
-//             document.getElementById("userLogin").style.display = "none";
-//             document.getElementById("userRegister").style.display = "none";
-
-//             // Display user details section
-//             document.getElementById("userDetails").style.display = "block";
-//             document.getElementById("userRequests").style.display = "block";
-//             document.getElementById("completedServices").style.display = "block";
-
-//             // Populate user details in the UI
-//             document.getElementById("userNameDisplay").textContent = user.name;
-//             document.getElementById("userEmailDisplay").textContent = user.email;
-//             document.getElementById("userPhoneDisplay").textContent = user.phone_number;
-//             document.getElementById("userAddressDisplay").textContent = user.address;
-
-//             // Fetch user requests and completed services
-//             fetchUserRequests(userID);
-//             fetchCompletedServices(userID);
-//         } else {
-//             alert(data.message || "Failed to fetch user details.");
-//         }
-//     } catch (error) {
-//         console.error("Error fetching user details:", error);
-//         alert("An error occurred while fetching user details.");
-//     }
-// }
-
-
-
-// Function to hide the edit form
-function hideEditForm() {
-    document.getElementById("editUserForm").style.display = "none";
+    document.getElementById("userEmailDisplay").textContent = user.email || "N/A";
+    document.getElementById("userPhoneDisplay").textContent = user.phone_number || "N/A";
+    document.getElementById("userAddressDisplay").textContent = user.address || "N/A";
 }
 
 
-// Function to show edit user details form
-function showEditUserDetails() {
-    document.getElementById("editUserName").value = document.getElementById("userNameDisplay").textContent;
-    document.getElementById("editUserEmail").value = document.getElementById("userEmailDisplay").textContent;
-    document.getElementById("editUserPhone").value = document.getElementById("userPhoneDisplay").textContent;
-    document.getElementById("editUserAddress").value = document.getElementById("userAddressDisplay").textContent;
-
-    document.getElementById("editUserForm").style.display = "block";
-}
-
-// Function to handle editing user details
-async function handleEditUserDetails(event) {
-    event.preventDefault();
-
-    const name = document.getElementById("editUserName").value;
-    const email = document.getElementById("editUserEmail").value;
-    const phone = document.getElementById("editUserPhone").value;
-    const address = document.getElementById("editUserAddress").value;
-    const userID = localStorage.getItem('userID');
-
-    // const userID = getQueryParam("userID");
-
-    try {
-        const response = await fetch(`http://localhost:3000/users/${userID}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, phone, address }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert("User details updated successfully!");
-            displayUserDetails(data.user);
-            hideEditForm();
-        } else {
-            alert(data.error || "Failed to update user details. Please try again.");
-        }
-    } catch (error) {
-        console.error("Error updating user details:", error);
-        alert("An error occurred. Please try again later.");
-    }
-}
-
-// Fetch and display user requests
+// // Fetch and display user requests
 async function fetchUserRequests(userID) {
-    if (!userID) {
-        return;
-    }
+    console.log("Fetching details for User ID:", userID);
+
     const requestsList = document.getElementById("requestsList");
     requestsList.innerHTML = "Loading requests...";
 
@@ -257,6 +168,7 @@ async function fetchUserRequests(userID) {
 
             `).join("");
             requestsList.innerHTML = requestsHTML;
+            document.getElementById("userRequests").style.display = "block";
         } else {
             requestsList.innerHTML = "<p>No service requests found.</p>";
         }
@@ -267,9 +179,8 @@ async function fetchUserRequests(userID) {
 }
 // Function to fetch and display completed service history
 async function fetchCompletedServices(userID) {
-    if (!userID) {
-        return;
-    }
+    console.log("Fetching details for User ID:", userID);
+
     const completedServicesList = document.getElementById("completedServicesList");
     completedServicesList.innerHTML = "Loading history...";
 
@@ -313,6 +224,8 @@ async function fetchCompletedServices(userID) {
             `;
 
             completedServicesList.innerHTML = completedServicesHTML;
+            document.getElementById("completedServices").style.display = "block";
+
         } else {
             completedServicesList.innerHTML = "<p>No completed services found.</p>";
         }
@@ -322,17 +235,95 @@ async function fetchCompletedServices(userID) {
     }
 }
 
+function openHomePage(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get("userId");
+
+    if(userId){
+        window.location.href = `index.html?userId=${userId}`;
+    }else{
+        window.location.href = `index.html`;
+    }
+}
+
+// function displayUserDetails(user) {
+//     document.getElementById("userLogin").style.display = "none";
+//     document.getElementById("userRegister").style.display = "none";
+//     document.getElementById("userDetails").style.display = "block";
+//     document.getElementById("userRequests").style.display = "block";
+//     document.getElementById("completedServices").style.display = "block";
+
+//     document.getElementById("userNameDisplay").textContent = user.name;
+//     document.getElementById("userEmailDisplay").textContent = user.email;
+//     document.getElementById("userPhoneDisplay").textContent = user.phone_number;
+//     document.getElementById("userAddressDisplay").textContent = user.address;
+
+//     const userId = getQueryParam("userId");
+//     fetchUserRequests(userId);
+//     fetchCompletedServices(userId);
+// }
+
+// Function to hide the edit form
+function hideEditForm() {
+    document.getElementById("editUserForm").style.display = "none";
+}
+
+
+// Function to show edit user details form
+function showEditUserDetails() {
+    document.getElementById("editUserName").value = document.getElementById("userNameDisplay").textContent;
+    document.getElementById("editUserEmail").value = document.getElementById("userEmailDisplay").textContent;
+    document.getElementById("editUserPhone").value = document.getElementById("userPhoneDisplay").textContent;
+    document.getElementById("editUserAddress").value = document.getElementById("userAddressDisplay").textContent;
+
+    document.getElementById("editUserForm").style.display = "block";
+}
+
+// Function to handle editing user details
+async function handleEditUserDetails(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("editUserName").value;
+    const email = document.getElementById("editUserEmail").value;
+    const phone = document.getElementById("editUserPhone").value;
+    const address = document.getElementById("editUserAddress").value;
+
+    const userID = getQueryParam("userID");
+
+    try {
+        const response = await fetch(`http://localhost:3000/users/${userID}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, phone, address }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("User details updated successfully!");
+            displayUserDetails(data.user);
+            hideEditForm();
+        } else {
+            alert(data.error || "Failed to update user details. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error updating user details:", error);
+        alert("An error occurred. Please try again later.");
+    }
+}
+
 // Cancel a request
 async function cancelRequest(requestId) {
     if (!confirm("Are you sure you want to cancel this request?")) return;
 
+    const userId = getQueryParam("userId");
     try {
         const response = await fetch(`http://localhost:3000/requests/${requestId}`, { method: "DELETE" });
 
         if (response.ok) {
             alert("Request canceled successfully.");
-            fetchUserRequests(userID);
-            fetchCompletedServices(userID); // Refresh the requests list
+            fetchUserRequests(userId);
+            fetchCompletedServices(userId); // Refresh the requests list
         } else {
             const data = await response.json();
             alert(data.error || "Failed to cancel the request.");
@@ -376,15 +367,18 @@ async function handleUserRegister(event) {
 
 // Function to handle user logout
 function logoutUser() {
-    userID = null;
-
     document.getElementById("loginUserEmail").value = '';
     document.getElementById("loginUserPassword").value = '';
 
     document.getElementById("userDetails").style.display = "none";
     document.getElementById("userRequests").style.display = "none";
     document.getElementById("completedServices").style.display = "none";
-    document.getElementById("userLogin").style.display = "block";
-    alert("You have been logged out.");
-    window.location.href = 'profile.html';
+    // document.getElementById("userLogin").style.display = "block";
+    document.getElementById("loginAlert").style.display = "none";
+    document.getElementById("login-button").style.display = "block";
+    document.getElementById("logout-button").style.display = "block";
+
+    const newUrl = `${window.location.origin}${window.location.pathname}`;
+    window.location.href = newUrl;
+    alert("You have been logged out.");    
 }

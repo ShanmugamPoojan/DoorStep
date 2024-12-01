@@ -5,34 +5,39 @@
     --hover: #0056b3;
 }
 *{
-    box-sizing: border-box;
+    box-sizing:border-box;
     scroll-behavior: smooth;
+    font-family: 'Poppins', sans-serif;
 }
 body {
-    font-family: 'Poppins', sans-serif;
     margin: 0;
     margin-top: 100px;
     padding: 0;
     /* background: #f4f4f4; */
 }
+main{
+    /* background: linear-gradient(68.6deg, rgb(57, 67, 248) 38.1%, rgb(192, 0, 255) 93.1%); */
+}
 
 /* Header Styling */
 /* Navigation Bar Styling */
 header {
-    margin-bottom: 20px;
-    width: 100vw;
+    /* margin-bottom: 20px; */
+    width: 100%;
     text-align: center;
-    padding:  20px 40px;
+    /* margin: 20px; */
+    padding:  10px 40px;
     background: #fff;
     color: var(--primary);
     display: flex;
-    gap: 50%;
     justify-content: space-between;
-
     position: fixed;
     top: 0;
     left: 0;
     z-index: 4;
+
+    /* border: 2px solid var(--primary);
+    border-radius: 50px; */
 }
 
 #logo{
@@ -55,11 +60,8 @@ nav ul {
     padding: 0;
 }
 
-nav ul li {
-    margin: 0 10px;
-}
-
 .button{
+    margin: 5px;
     padding: 10px;
     text-decoration: none;
     color: var(--primary);
@@ -89,7 +91,7 @@ nav ul li {
 section {
     /* margin: 20px; */
     padding: 20px;
-    background: white;
+    /* background: white; */
     /* border-radius: 8px; */
     /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  */
 }  
@@ -163,7 +165,7 @@ section {
     border-radius: 5px;
 }
 .service-category {
-    background-color: #fff;
+    /* background-color: #fff; */
     padding: 10px;
     text-align: left;
     transition: transform 0.3s;
@@ -254,7 +256,7 @@ section {
     border-radius: 5px;
 }
 .service-card  h3{
-    margin: 0;
+    margin: 10px 0;
     padding: 0;
 }
 .service-card:hover {
@@ -273,20 +275,81 @@ section {
 }
 
 .card-content {
-    padding: 10px;
     text-align: center;
 }
 
-.card-content h4 {
-    margin: 0 0 5px;
-    font-size: 1.2em;
-}
 
 .card-content p {
     margin: 0;
     color: #555;
     font-size: 0.9em;
 }
+
+
+
+/* Overlay for blur effect */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 5;
+}
+/* Popup for login form */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    /* padding: 20px; */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+.popup div{
+    margin: 0;
+}
+/* Popup input styles */
+.popup input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 5px;
+}
+/* Form Styling */
+form {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+}
+/* input, select{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+} */
+/* Link Styling */
+.link {
+    color: var(--primary);
+    text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
+}
+.link:hover {
+    text-decoration: none;
+}
+
 
 /* Provider Prompt Section */
 .section {
@@ -333,29 +396,49 @@ section {
     justify-content: space-around;
 }
 
-@media (max-width: 768px) {
-    header {
-        text-align: center;
-    }
+
+@media (max-width: 1024px) {
 
     nav ul {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 0;
+        flex-direction: row;
+        gap: 5px;
     }
 
-    nav ul li button {
-        width: 100%;
-        padding: 10px;
+    #searchResults {
+        width: 70%;
+    }
+
+    .service-cards {
+        margin: 0 20px;
+    }
+
+    .service-card {
+        width: 200px;
+    }
+
+    #footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        /* margin: 5px 0; */
     }
 
     #serviceSearch {
         width: 90%;
     }
 
-    .service-category h3 {
-        font-size: 1.2em;
+    .service-category {
+        text-align: center;
     }
 
     .service-cards {
@@ -364,63 +447,81 @@ section {
     }
 
     .service-card {
-        width: 45%;
-        margin: 5px 0;
+        width: 50%;
+        margin: 10px 0;
     }
 
-    #providerPrompt>div{
-        flex-direction: column;
+    .scroll-button {
+        display: none; /* Hide scroll buttons on smaller screens */
     }
 
     #providerPrompt img {
         width: 100%;
         height: auto;
+    }
+
+    #footer-content {
+        flex-direction: column;
     }
 }
 
 @media (max-width: 480px) {
-    header h1 {
-        font-size: 1.5em;
+    header {
+        padding: 10px;
+        flex-direction: column;
     }
 
-    header p {
-        font-size: 1em;
+    #logo {
+        font-size: 24px;
     }
 
     nav ul {
-        gap: 5px;
+        flex-direction: column;
+        gap: 10px;
     }
 
-    nav ul li button {
-        font-size: 0.9em;
+    nav ul li {
+        margin: 5px 0;
     }
 
     #serviceSearch {
-        font-size: 0.9em;
-        padding: 8px;
+        font-size: 0.8em;
+        padding: 10px;
+        width: 95%;
     }
 
     .service-card {
-        width: 100%;
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .service-category h3 {
+        font-size: 1.2em;
+    }
+
+    form input,
+    form button,
+    form select {
         font-size: 1em;
-        padding: 10px;
-        text-align: center;
-    }
-
-    #providerPrompt img {
-        width: 100%;
-        height: auto;
-    }
-
-    form input, form button, form select {
-        font-size: 0.9em;
-        padding: 8px;
         width: 90%;
         margin: 5px auto;
     }
 
     footer p {
-        font-size: 0.9em;
-        line-height: 1.5em;
+        font-size: 0.8em;
+        text-align: center;
+    }
+
+    #footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #providerPrompt>div {
+        flex-direction: column;
+    }
+
+    #providerPrompt img {
+        width: 100%;
     }
 }

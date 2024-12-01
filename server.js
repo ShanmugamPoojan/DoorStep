@@ -145,88 +145,99 @@ app.get('/providers/:id', async (req, res) => {
     }
 });
 
-
-// app.get('/categories', async (req, res) => {
-//     try {
-//         const [categories] = await db.query('SELECT * FROM service_categories');
-//         res.json(categories); // Return valid JSON
-//     } catch (error) {
-//         console.error('Error fetching categories:', error);
-//         res.status(500).json({ error: 'Failed to fetch categories' });
-//     }
-// });
 // Fetch available service categories
-app.get('/service-categories', (req, res) => {
-    const query = 'SELECT DISTINCT service_category FROM services_provided';
+app.get('/service-categories', async (req, res) => {
+    try {
+        const query = 'SELECT DISTINCT service_category FROM services_provided';
+        const [results] = await db.query(query);
 
-    db.query(query, (err, results) => {
-        if (err) {
-            console.error('Error fetching service categories:', err);
-            return res.status(500).json({ success: false, message: 'Server error' });
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: 'No categories found' });
         }
 
-        // Extract distinct categories from results
         const categories = results.map(row => row.service_category);
-
-        res.json({ success: true, categories });
-    });
+        res.status(200).json({ success: true, categories });
+    } catch (err) {
+        console.error('Error fetching categories:', err);
+        res.status(500).json({ success: false, message: 'Database query failed' });
+    }
 });
+
 
 // Register a service provider
 app.post('/providers/register', async (req, res) => {
     const { provider_name, email, phone_number, address, category, newCategory, service_name, password } = req.body;
 
     try {
-        // If a new category is provided, insert it into the database
-        let categoryToUse = category;
+        // Resolve category ID: fetch existing or insert new
+        let categoryId;
+
+        // Check if a new category is provided
         if (newCategory) {
-            categoryToUse = newCategory;
+            // Insert new category into the services_provided table
+            const insertCategoryQuery = `INSERT INTO services_provided (service_name, service_category) VALUES (?, ?)`;
+            const [categoryResult] = await db.query(insertCategoryQuery, [service_name, newCategory]);
+            categoryId = categoryResult.insertId; // Use the newly created category ID
+        } else {
+            // Fetch the existing category ID
+            const fetchCategoryQuery = `SELECT service_id FROM services_provided WHERE service_category = ? LIMIT 1`;
+            const [categoryRows] = await db.query(fetchCategoryQuery, [category]);
+
+            if (categoryRows.length === 0) {
+                return res.status(400).json({ success: false, message: "Invalid category provided." });
+            }
+            categoryId = categoryRows[0].service_id; // Use the existing category ID
         }
 
-        // Insert service provider and the service they provide into the database
+        // Insert provider details into the service_providers table
         const providerQuery = `
-            INSERT INTO service_providers (provider_name, email, phone_number, address, service_category, password)
+            INSERT INTO service_providers (provider_name, email, phone_number, address, service_id, password)
             VALUES (?, ?, ?, ?, ?, ?)
         `;
-        
-        db.query(
-            providerQuery,
-            [provider_name, email, phone_number, address, categoryToUse, password],
-            (err, result) => {
-                if (err) {
-                    console.error("Error registering provider:", err);
-                    return res.status(500).json({ success: false, message: 'Failed to register service provider.' });
-                }
 
-                // After registering the provider, insert the service into the services_provided table
-                const serviceQuery = `
-                    INSERT INTO services_provided (service_name, service_category, provider_id)
-                    VALUES (?, ?, ?)
-                `;
+        const [providerResult] = await db.query(providerQuery, [
+            provider_name,
+            email,
+            phone_number,
+            address,
+            categoryId,
+            password,
+        ]);
 
-                db.query(
-                    serviceQuery,
-                    [service_name, categoryToUse, result.insertId], // Use the provider_id (insertId from provider registration)
-                    (err, serviceResult) => {
-                        if (err) {
-                            console.error("Error registering service:", err);
-                            return res.status(500).json({ success: false, message: 'Failed to register service.' });
-                        }
-
-                        res.status(201).json({
-                            success: true,
-                            message: "Service provider registered successfully.",
-                            provider_id: result.insertId,
-                        });
-                    }
-                );
-            }
-        );
+        res.status(201).json({
+            success: true,
+            message: "Service provider registered successfully.",
+            provider_id: providerResult.insertId,
+        });
     } catch (error) {
         console.error("Error during provider registration:", error);
         res.status(500).json({ success: false, message: "Failed to register service provider." });
     }
 });
+// Route to fetch provider details by provider ID
+app.get('/providers-details/:providerId', async (req, res) => {
+    const { providerId } = req.params;
+
+    try {
+        const query = `
+            SELECT provider_name, email, phone_number, address, service_id
+            FROM service_providers
+            WHERE provider_id = ?
+        `;
+        const [rows] = await db.query(query, [providerId]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ success: false, message: "Provider not found." });
+        }
+
+        res.json({ success: true, provider: rows[0] });
+    } catch (error) {
+        console.error("Error fetching provider details:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch provider details." });
+    }
+});
+
+
 
 // User Registration
 app.post("/users/register", async (req, res) => {
@@ -280,24 +291,30 @@ app.post("/users/login", async (req, res) => {
 });
 
 // Route to fetch user details by ID
-app.get('/user-details/:userId', (req, res) => {
+// Route to fetch user details by user ID
+app.get('/user-details/:userId', async (req, res) => {
     const { userId } = req.params;
 
-    // Query to fetch user details
-    const query = 'SELECT name, email, phone_number, address FROM users WHERE user_id = ?';
-    db.query(query, [userId], (err, results) => {
-        if (err) {
-            console.error('Error fetching user details:', err);
-            return res.status(500).json({ success: false, message: 'Server error' });
+    try {
+        const query = `
+            SELECT name, email, phone_number, address
+            FROM users
+            WHERE user_id = ?
+        `;
+        const [rows] = await db.query(query, [userId]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ success: false, message: "User not found." });
         }
 
-        if (results.length === 0) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
-
-        res.json({ success: true, user: results[0] });
-    });
+        res.json({ success: true, user: rows[0] });
+    } catch (error) {
+        console.error("Error fetching user details:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch user details." });
+    }
 });
+
+
 
 
 // Update User Details
@@ -383,7 +400,6 @@ app.get("/users/:userId/requests", async (req, res) => {
     }
 });
 
-
 app.delete("/requests/:requestId", async (req, res) => {
     const requestId = req.params.requestId;
 
@@ -400,6 +416,13 @@ app.delete("/requests/:requestId", async (req, res) => {
         res.status(500).json({ error: "Failed to cancel the request." });
     }
 });
+
+
+
+
+
+
+
 
 // POST /service_requests - Handle service booking
 app.post('/service_requests', async (req, res) => {
@@ -449,28 +472,17 @@ app.post('/service_requests', async (req, res) => {
 
 
 
-// Register Service Provider
-app.post('/providers/register', async (req, res) => {
-    const { provider_name, email, phone_number, address, service_id, profile_picture, password, gender } = req.body;
 
-    try {
-        const [result] = await db.query(
-            `INSERT INTO service_providers (provider_name, email, phone_number, address, service_id, profile_picture, password, gender)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [provider_name, email, phone_number, address, service_id, profile_picture || '', password, gender]
-        );
 
-        res.status(201).json({ message: "Service provider registered successfully.", provider_id: result.insertId });
-    } catch (error) {
-        console.error("Error registering service provider:", error);
-        res.status(500).json({ error: "Failed to register service provider." });
-    }
-});
+
+
+
+
 
 // Login Service Provider
 app.post('/providers/login', async (req, res) => {
     const { email, password } = req.body;
-
+    
     try {
         const [rows] = await db.query(
             `SELECT provider_id, provider_name, email, phone_number, address, service_id, profile_picture
@@ -478,7 +490,7 @@ app.post('/providers/login', async (req, res) => {
              WHERE email = ? AND password = ?`,
             [email, password]
         );
-
+        
         if (rows.length > 0) {
             res.json({ message: "Login successful.", provider: rows[0] });
         } else {
@@ -489,6 +501,62 @@ app.post('/providers/login', async (req, res) => {
         res.status(500).json({ error: "Failed to login service provider." });
     }
 });
+
+// Route to fetch service requests based on provider_id
+app.get('/providers/:providerId/requests', async (req, res) => {
+    const { providerId } = req.params;
+
+    try {
+        const query = `
+            SELECT r.request_id, r.user_id, r.service_id, r.request_status, r.request_date, r.available_timings, r.additional_notes, 
+                   s.service_name, s.service_category, u.name AS user_name, u.email AS user_email, u.phone_number AS user_phone
+            FROM service_requests r
+            JOIN services_provided s ON r.service_id = s.service_id
+            JOIN users u ON r.user_id = u.user_id
+            WHERE r.provider_id = ?
+        `;
+
+        const [rows] = await db.query(query, [providerId]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ success: false, message: "No service requests found for this provider." });
+        }
+
+        res.json({ success: true, requests: rows });
+    } catch (error) {
+        console.error("Error fetching service requests:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch service requests." });
+    }
+});
+
+// Route to update the status of a service request
+app.put('/requests/:requestId/status', async (req, res) => {
+    const { requestId } = req.params;
+    const { newStatus } = req.body; // 'Pending', 'In Progress', 'Completed', 'Cancelled'
+
+    try {
+        const query = `
+            UPDATE service_requests
+            SET request_status = ?
+            WHERE request_id = ?
+        `;
+
+        const [result] = await db.query(query, [newStatus, requestId]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ success: false, message: "Service request not found." });
+        }
+
+        res.json({ success: true, message: "Service request status updated." });
+    } catch (error) {
+        console.error("Error updating service request status:", error);
+        res.status(500).json({ success: false, message: "Failed to update service request status." });
+    }
+});
+
+
+
+
 
 // Fetch all services
 app.get('/admin/services', (req, res) => {

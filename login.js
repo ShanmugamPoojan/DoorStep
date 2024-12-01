@@ -175,34 +175,3 @@ function displayUserDetails(user) {
 //     }
 // });
 
-
-// Function to handle user registration
-async function handleUserRegister(event) {
-    event.preventDefault();
-
-    const name = document.getElementById("userName").value;
-    const email = document.getElementById("userEmail").value;
-    const phone = document.getElementById("userPhone").value;
-    const address = document.getElementById("userAddress").value;
-    const password = document.getElementById("userPassword").value;
-
-    try {
-        const response = await fetch("http://localhost:3000/users/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, phone, address, password }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert("Registration successful! Please log in.");
-            showUserLogin();
-        } else {
-            alert(data.error || "Registration failed. Please try again.");
-        }
-    } catch (error) {
-        console.error("Error during registration:", error);
-        alert("An error occurred. Please try again later.");
-    }
-}

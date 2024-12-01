@@ -25,7 +25,9 @@
             <ul>
                 <!-- <li><a href="#services">Services</a></li> -->
                 <li><button class="button" onclick="location.href='#services'">Services</button></li>
-                <li><button class="button" onclick= "window.location.href='profile.html'">Profile</button></li>
+                <li id="profile-button" style="display: none;"><button class="button"  onclick= "openProfilePage()">Profile</button></li>
+                <li id="login-button" style="display: block;"><button class="button"  onclick="showLoginPopup()">Login</button></li>
+                <li id="logout-button" style="display: none;"><button class="button"  onclick="logoutUser()" >Logout</button></li>
                 <li><button class="button" onclick="location.href='#providerPrompt'">Service Provider</button></li>
             </ul>
         </nav>
@@ -68,7 +70,39 @@
                         delectus velit doloribus nesciunt quos dolorum ut aut exercitationem quaerat, vel ratione
                         eveniet
                         labore voluptas sapiente sed ullam error, magnam molestiae vero?</p>
-                    <button class="button" onclick= "window.location.href='provider-profile.html'">Become a Service Provider</button>
+                    <button class="button" onclick= "window.open('provider-profile.html')">Become a Service Provider</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="userSection">
+            <!-- Overlay -->
+            <div id="overlay" class="overlay" onclick="closeLoginPopup()"></div>
+            <!-- User Login Section -->
+            <div id="userLoginPopup" class="popup">
+                <div id="userLogin" class="section">
+                    <h2>User Login</h2>
+                    <form id="userLoginForm" onsubmit="handleUserLogin(event)">
+                        <input type="email" id="loginUserEmail" name="email" required placeholder="Email">
+                        <input type="password" id="loginUserPassword" name="password" required placeholder="Password">
+                        <button type="submit" class="button">Login</button>
+                        <button onclick="closeLoginPopup()" class="button">Cancel</button>
+                        <p>Don't have an account? <span class="link" onclick="showUserRegister()">Register here</span>
+                        </p>
+                    </form>
+                </div>
+                <div id="userRegister" class="section" style="display: none;">
+                    <h2>User Register</h2>
+                    <form id="userRegisterForm" onsubmit="handleUserRegister(event)">
+                        <input type="text" id="userName" name="name" required placeholder="Name">
+                        <input type="email" id="userEmail" name="email" required placeholder="Email">
+                        <input type="tel" id="userPhone" name="phone" required placeholder="Phone number">
+                        <input type="text" id="userAddress" name="address" required placeholder="Address">
+                        <input type="password" id="userPassword" name="password" required placeholder="Password">
+                        <button type="submit" class="button">Register</button>
+                        <button onclick="closeLoginPopup()" class="button">Cancel</button>
+                        <p>Already have an account? <span class="link" onclick="showUserLogin()">Login here</span></p>
+                    </form>
                 </div>
             </div>
         </section>
@@ -97,7 +131,7 @@
         </div>
     </footer>
 
-    <script src="login.js"></script>
+    <!-- <script src="login.js"></script> -->
     <script src="home-script.js"></script>
 </body>
 

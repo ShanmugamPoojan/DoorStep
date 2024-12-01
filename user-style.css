@@ -52,10 +52,6 @@ nav ul {
     padding: 0;
 }
 
-nav ul li {
-    margin: 0 10px;
-}
-
 .button {
     margin: 2px;
     padding: 10px;
@@ -154,15 +150,13 @@ input, select{
 /* User/Provider Details Section */
 #userDetails,
 #providerDetails {
-    margin-top: 20px;
+    margin: 20px;
     padding: 15px;
     background: #eef;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
     text-align: center;
 }
 
@@ -203,6 +197,7 @@ section {
     padding: 15px;
     margin: 10px 0;
     border-radius: 10px;
+    width: 400px;
 }
 
 .request-item img {
@@ -318,4 +313,188 @@ section {
 #footer-content {
     display: flex;
     justify-content: space-around;
+}
+
+/* Medium screens (Tablets and small desktops) */
+@media (max-width: 1024px) {
+    /* header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    #logo {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    nav ul {
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+    } */
+
+    .button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    #userDetails, #providerDetails {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    #requestsList {
+        gap: 10px;
+    }
+
+    .request-item {
+        width: 300px;
+        padding: 10px;
+    }
+
+    .services-table {
+        font-size: 14px;
+    }
+
+    #footer-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+/* Small screens (Mobile phones) */
+@media (max-width: 768px) {
+    /* header {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    #logo {
+        font-size: 30px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+    } */
+
+    .button {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .request-item {
+        width: 100%;
+        padding: 8px;
+    }
+
+    .services-table {
+        font-size: 12px;
+    }
+
+    #editUserForm input {
+        width: 90%;
+    }
+
+    .editButtons button {
+        width: 90%;
+    }
+
+    #footer-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Extra-small screens (Small mobile phones) */
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    #logo {
+        font-size: 24px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .button {
+        font-size: 10px;
+        padding: 5px;
+    }
+
+    #userDetails, #providerDetails {
+        padding: 10px;
+    }
+
+    .request-item {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .services-table {
+        font-size: 12px;
+    }
+
+    #footer-content {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    footer p {
+        font-size: 0.9em;
+        text-align: center;
+    }
+}
+
+/* Ultra-small screens (Feature phones and very small devices) */
+@media (max-width: 360px) {
+    header {
+        padding: 5px;
+        flex-direction: column;
+    }
+
+    #logo {
+        font-size: 20px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .button {
+        font-size: 10px;
+        padding: 5px;
+    }
+
+    #userDetails, #providerDetails {
+        padding: 5px;
+        font-size: 0.9em;
+    }
+
+    .request-item {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .services-table {
+        font-size: 10px;
+    }
+
+    footer p {
+        font-size: 0.8em;
+        text-align: center;
+    }
 }

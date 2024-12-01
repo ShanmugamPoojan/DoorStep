@@ -47,13 +47,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                         <div class="card-content">
                             <h3>${service.service_name}</h3>
-                            <p>${service.service_category || "Uncategorized"}</p>
                         </div>
                     `;
-
+                    
                     // Add click event to navigate to service details
                     card.addEventListener("click", () => {
-                        window.location.href = `services.html?serviceId=${service.service_id}`;
+                        const userID = getQueryParam("userId");
+                        window.location.href = `services.html?serviceId=${service.service_id}&userId=${userID}`;
                     });
 
                     serviceCards.appendChild(card);
@@ -130,7 +130,9 @@ function filterServices() {
 
                 // Add click event to navigate to the service details page
                 resultCard.addEventListener("click", () => {
-                    window.location.href = `services.html?serviceId=${service.service_id}`;
+
+                    const userID = getQueryParam("userId");
+                    window.location.href = `services.html?serviceId=${service.service_id}&userId=${userID}`;
                     document.getElementById("serviceSearch").value = '';
                 });
 
@@ -148,104 +150,96 @@ function filterServices() {
 }
 
 
-// function filterServices() {
-//     const searchTerm = document.getElementById("serviceSearch").value.toLowerCase();
-//     const categories = document.querySelectorAll(".service-category");
+// Function to get query parameters from URL
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
 
-//     categories.forEach(category => {
-//         const categoryName = category.querySelector("h3").textContent.toLowerCase();
-//         const services = category.querySelectorAll(".service-card");
-//         let categoryVisible = false;
+document.addEventListener("DOMContentLoaded", () => {
+    // fetchUserRequests(1);
+    const userID = getQueryParam("userId");
 
-//         services.forEach(service => {
-//             const serviceName = service.textContent.toLowerCase();
-//             // Check if the service name or category name includes the search term
-//             const isVisible = serviceName.includes(searchTerm) || categoryName.includes(searchTerm);
-//             service.style.display = isVisible ? "block" : "none";
-//             if (isVisible) categoryVisible = true; // If any service is visible, make the category visible
-//         });
+    if (userID) {
+        console.log(userID);
+        document.getElementById("login-button").style.display = "none";
+        document.getElementById("profile-button").style.display = "block";
+        document.getElementById("logout-button").style.display = "block";
+    }
+});
 
-//         // Show or hide the category based on whether any of its services are visible
-//         category.style.display = categoryVisible ? "block" : "none";
-//     });
-// }
+// Function to show the login popup
+function showLoginPopup() {
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("userLoginPopup").style.display = "block";
+}
 
-// // Filter services by search input
-// function filterServices() {
-//     const searchTerm = document.getElementById("serviceSearch").value.toLowerCase();
-//     const categories = document.querySelectorAll(".service-category");
+// Function to close the login popup
+function closeLoginPopup() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("userLoginPopup").style.display = "none";
+}
+
+// Function to handle user login
+async function handleUserLogin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("loginUserEmail").value;
+    const password = document.getElementById("loginUserPassword").value;
+
+    try {
+        const response = await fetch("http://localhost:3000/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Store userID in localStorage
+            const userID = data.user.user_id;
+            localStorage.setItem("userID", userID);
+            console.log("Logged-in User ID:", userID);
+
+            const newUrl = `${window.location.origin}${window.location.pathname}?userId=${userID}`;
+            window.history.pushState({ path: newUrl }, "", newUrl);
+            
+            // window.location.reload();
+
+            document.getElementById("login-button").style.display = "none";
+            document.getElementById("profile-button").style.display = "block";
+            document.getElementById("logout-button").style.display = "block";
+            // alert("Login successful");
+            closeLoginPopup();
+            // Call displayUserDetails with user data
+            // displayUserDetails(data.user);
+        } else {
+            alert(data.error || "Login failed. Please check your credentials.");
+        }
+    } catch (error) {
+        console.error("Error during login:", error);
+        alert("An error occurred. Please try again later.");
+    }
+}
+
+// Function to handle user logout
+function logoutUser() {
+    userID = null;
+
+    document.getElementById("loginUserEmail").value = '';
+    document.getElementById("loginUserPassword").value = '';
+
+    const newUrl = `${window.location.origin}${window.location.pathname}`;
+    // window.history.pushState({ path: newUrl }, "", newUrl);
+    window.location.href = newUrl;
     
-//     categories.forEach(category => {
-//         const categoryName = category.querySelector("h3").textContent.toLowerCase();
-//         const services = category.querySelectorAll(".service-card");
-//         let categoryVisible = false;
-        
-//         services.style
-//         services.forEach(service => {
-//             const serviceName = service.textContent.toLowerCase();
-//             const isVisible = serviceName.includes(searchTerm) || categoryName.includes(searchTerm);
-//             service.style.display = isVisible ? "block" : "none";
-//             if (isVisible) categoryVisible = true;
-//         });
-        
-//         category.style.display = categoryVisible ? "block" : "none";
-//     });
-// }
+    alert("You have been logged out.");
+}
 
+function openProfilePage(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get("userId");
 
-// Filter services based on search input
-// function filterServices() {
-//     const searchValue = document.getElementById("serviceSearch").value.toLowerCase();
-//     const serviceCards = document.querySelectorAll(".service-card");
-
-//     serviceCards.forEach(card => {
-//         const serviceName = card.textContent.toLowerCase();
-//         card.style.display = serviceName.includes(searchValue) ? "block" : "none";
-//     });
-// }
-
-// // Submit user form
-// function handleUserLogin(event) {
-//     event.preventDefault(); // Prevent form submission
-
-//     // Get user credentials
-//     const email = document.getElementById('loginUserEmail').value;
-//     const password = document.getElementById('loginUserPassword').value;
-
-//     // Send a login request
-//     fetch('http://localhost:3000/login/user', {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({ email, password }),
-//     })    
-//         .then((response) => response.json())
-//         .then((data) => {
-//             if (data.error) {
-//                 alert(data.error);
-//             } else {
-//                 // Display user details
-//                 document.getElementById('userNameDisplay').innerText = data.name;
-//                 document.getElementById('userEmailDisplay').innerText = data.email;
-//                 document.getElementById('userPhoneDisplay').innerText = data.phone_number;
-//                 document.getElementById('userAddressDisplay').innerText = data.address;
-
-//                 hideUserSection(); // Hide the login form
-//                 document.getElementById('userDetails').style.display = 'block'; // Show user details
-//             }
-//         })
-//         .catch((error) => {
-//             console.error('Error:', error);
-//             alert('An error occurred during login. Please try again.');
-//         });
-// }
-
-
-// // Submit provider form
-// document.getElementById("providerForm").addEventListener("submit", (event) => {
-//     event.preventDefault();
-//     const formData = new FormData(event.target);
-//     fetch('/providers', { method: 'POST', body: JSON.stringify(Object.fromEntries(formData)), headers: { 'Content-Type': 'application/json' } })
-//         .then(response => response.json())
-//         .then(data => alert(data.message))
-//         .catch(err => console.error("Error:", err));
-// });
+    window.location.href = `user-profile.html?userId=${userId}`;
+}

@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Service Details</title>
     <link rel="stylesheet" href="services-style.css">
     <!-- <link rel="stylesheet" href="home-style.css"> -->
@@ -19,8 +21,8 @@
         <nav>
             <ul>
                 <!-- <li><a href="#services">Services</a></li> -->
-                <li><button class="button" onclick="location.href='index.html'">Services</button></li>
-                <li><button class="button" onclick="showLoginPopup()">User Login</button></li>
+                <li><button class="button" onclick="openHomePage()">Services</button></li>
+                <!-- <li><button class="button" onclick="showLoginPopup()">User Login</button></li> -->
                 <!-- <li><button class="button" onclick="location.href='#providerPrompt'">Service Provider</button></li> -->
             </ul>
         </nav>
@@ -39,7 +41,7 @@
                         <input type="email" id="loginUserEmail" name="email" required placeholder="Email">
                         <input type="password" id="loginUserPassword" name="password" required placeholder="Password">
                         <button type="submit" class="button">Login</button>
-                        <button onclick="closeLoginPopup()" class="button">Cancle</button>
+                        <button onclick="closeLoginPopup()" class="button">Cancel</button>
                         <p>Don't have an account? <span class="link" onclick="showUserRegister()">Register here</span>
                         </p>
                     </form>
@@ -53,7 +55,7 @@
                         <input type="text" id="userAddress" name="address" required placeholder="Address">
                         <input type="password" id="userPassword" name="password" required placeholder="Password">
                         <button type="submit" class="button">Register</button>
-                        <button onclick="closeLoginPopup()" class="button">Cancle</button>
+                        <button onclick="closeLoginPopup()" class="button">Cancel</button>
                         <p>Already have an account? <span class="link" onclick="showUserLogin()">Login here</span></p>
                     </form>
                 </div>
@@ -85,6 +87,7 @@
                         <option value="12-15">12 PM - 3 PM</option>
                         <option value="15-18">3 PM - 6 PM</option>
                         <option value="18-21">6 PM - 9 PM</option>
+                        <option value="anytime">Anytime</option>
                     </select>
 
                     <textarea id="additionalNotes" rows="4" placeholder="Enter any additional notes..."></textarea>

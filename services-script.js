@@ -65,32 +65,29 @@ function displayProviderDetails(serviceId) {
 function handleBooking(providerId, serviceId) {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get("userId");
-    if (!userId) {
+    console.log(userId);
+
+    if (!userId || userId.trim() === "") {
         alert("You need to log-in to book this service provider.");
         // window.location.href = "login.html"; // Redirect to login page
         return;
     }
-
-    // Show the modal to get user input
     document.getElementById("bookingModal").style.display = "block";
 
-    // Close the modal if the user clicks "X" or outside the modal
     document.getElementById("closeModal").onclick = function () {
         document.getElementById("bookingModal").style.display = "none";
     };
-
     window.onclick = function (event) {
         if (event.target === document.getElementById("bookingModal")) {
             document.getElementById("bookingModal").style.display = "none";
         }
     };
 
-    // Handle form submission
     document.getElementById("bookingForm").onsubmit = function (event) {
         event.preventDefault();
 
-        const availableTimings = document.getElementById("availableTimings").value;
-        const additionalNotes = document.getElementById("additionalNotes").value;
+        const availableTimings = document.getElementById("availableTimings").value ;
+        const additionalNotes = document.getElementById("additionalNotes").value || "N/A";
 
         if (!availableTimings) {
             alert("Preferred timing is required to proceed with booking.");
@@ -127,53 +124,13 @@ function handleBooking(providerId, serviceId) {
     };
 }
 
-// // Function to handle booking a service provider
-// function handleBooking(providerId, serviceId) {
-//     const urlParams = new URLSearchParams(window.location.search);
-//     const userId = urlParams.get("userId");
-//     if (!userId) {
-//         alert("You need to log-in to book this service provider.");
-//         // window.location.href = "login.html"; // Redirect to login page
-//         return;
-//     }
-//     // console.log(providerId, serviceId, userId);
+function openHomePage(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get("userId");
 
-//     // Prompt user to enter additional details for booking
-//     const availableTimings = prompt("Enter your preferred timing (Options: 9-12, 12-15, 15-18, 18-21):");
-//     const additionalNotes = prompt("Enter any additional notes or requirements:");
+    window.location.href = `index.html?userId=${userId}`;
 
-//     if (!availableTimings) {
-//         alert("Preferred timing is required to proceed with booking.");
-//         return;
-//     }
-
-//     // Send booking request to the API
-//     fetch(`http://localhost:3000/service_requests`, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//             user_id: userId,
-//             provider_id: providerId,
-//             service_id: serviceId,
-//             available_timings: availableTimings,
-//             additional_notes: additionalNotes,
-//         }),
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.success) {
-//                 alert("Your service booking has been successfully submitted.");
-//             } else {
-//                 alert("Failed to book the service. Please try again.");
-//             }
-//         })
-//         .catch(err => {
-//             console.error("Error booking service:", err);
-//             alert("An error occurred while booking the service.");
-//         });
-// }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);

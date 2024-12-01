@@ -10,7 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Itim&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=SUSE:wght@100..800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="profile-style.css">
+    <link rel="stylesheet" href="user-style.css">
     <!-- <link rel="stylesheet" href="home-style.css"> -->
 </head>
 
@@ -25,9 +25,9 @@
         <nav>
             <ul>
                 <!-- <li><a href="#services">Services</a></li> -->
-                <li><button class="button" onclick="window.location.href='index.html'">Services</button></li>
-                <li><button class="button" onclick="showLoginPopup()">User Login</button></li>
-                <!-- <li><button class="button" onclick="showProviderLogin()">Provider Login</button></li> -->
+                <li><button class="button" onclick="openHomePage()">Services</button></li>
+                <li id="login-button" style="display: block;"><button class="button"  onclick="showLoginPopup()">Login</button></li>
+                <li id="logout-button" style="display: none;"><button class="button"  onclick="logoutUser()" >Logout</button></li>
             </ul>
         </nav>
     </header>
@@ -87,7 +87,6 @@
                         <button type="button" onclick="hideEditForm()">Cancel</button>
                     </div>
                 </form>
-                <button onclick="logoutUser()" class="button">Logout</button>
             </div>
         </section>
 
@@ -130,7 +129,7 @@
     </footer>
 
     <!-- <script src="login.js"></script> -->
-    <script src="profile-script.js"></script>
+    <script src="user-script.js"></script>
 </body>
 
 </html>
