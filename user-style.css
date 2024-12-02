@@ -150,7 +150,7 @@ input, select{
 /* User/Provider Details Section */
 #userDetails,
 #providerDetails {
-    margin: 20px;
+    margin: 20px auto;
     padding: 15px;
     background: #eef;
     border: 1px solid #ccc;
@@ -167,23 +167,36 @@ section {
     /* border-radius: 8px; */
     /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  */
 } 
-
-.section {
-    text-align: center;
-    padding: 20px;
-    background: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    max-width: 100%;
-    margin: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+#loginAlert {
+    background-color: #ecf4ff;
+    border-left: 10px solid var(--primary);
+    color: var(--primary);
 }
 
+.section {
+    margin: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+#userRequests > h2,#completedServices > h2{
+    margin: 0;
+    background-color: #ecf4ff;
+    border-bottom: 2px solid var(--primary);
+    border-radius: 10px 10px 0 0;
+    color: var(--primary);
+    font-size: 25px;
+    font-weight: 600;
+    padding: 10px;
+}
 /* #userRequests, #completedServices{
     margin: 20px;
     text-align: center;
 } */
 #requestsList{
+    padding: 20px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -202,9 +215,10 @@ section {
 
 .request-item img {
     width: 200px;
+    height: 200px;
     object-fit: cover;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 50%;
 
 }
 .request-item p{
@@ -228,6 +242,9 @@ section {
     background-color: #e60000;
 }
 
+#completedServicesList{
+    padding: 20px;
+}
 .services-table {
     width: 100%;
     border-collapse: collapse;

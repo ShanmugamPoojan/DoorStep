@@ -288,17 +288,49 @@ async function changeStatus(requestId, newStatus) {
     }
 }
 
-// function handleProviderLogout() {
-//     // Clear provider-related data
-//     document.getElementById("providerDetails").style.display = "none";
-//     document.getElementById("providerSection").style.display = "block";
-//     document.getElementById("providerLogin").style.display = "block";
-//     document.getElementById("providerRegister").style.display = "none";
+async function fetchServiceHistory(providerId) {
+    try {
+        const response = await fetch(`http://localhost:3000/providers/${providerId}/service-history`);
+        const data = await response.json();
 
-//     // Clear session storage or other variables if used
-//     // sessionStorage.removeItem("providerID"); 
-//     alert("You have been logged out.");
-// }
+        if (response.ok && data.success) {
+            displayServiceHistory(data.serviceHistory);
+        } else {
+            console.error("Error fetching service history:", data.message || "Unknown error");
+            alert(data.message || "Failed to fetch service history.");
+        }
+    } catch (error) {
+        console.error("Error fetching service history:", error);
+        alert("An error occurred while fetching service history.");
+    }
+}
+
+function displayServiceHistory(serviceHistory) {
+    const serviceHistoryTable = document.getElementById("serviceHistoryTable");
+
+    if (!serviceHistory || serviceHistory.length === 0) {
+        serviceHistoryTable.innerHTML = "<tr><td colspan='7'>No service history available.</td></tr>";
+        return;
+    }
+
+    const rows = serviceHistory.map((entry) => `
+        <tr>
+            <td>${entry.request_id}</td>
+            <td>${entry.user_name}</td>
+            <td>${entry.user_email}</td>
+            <td>${entry.user_phone}</td>
+            <td>${entry.service_name}</td>
+            <td>${entry.request_status}</td>
+            <td>${new Date(entry.request_date).toLocaleString()}</td>
+            <td>${entry.available_timings}</td>
+            <td>${entry.additional_notes || "N/A"}</td>
+        </tr>
+    `).join("");
+
+    serviceHistoryTable.innerHTML = rows;
+}
+
+
 function logoutProvider() {
     document.getElementById("loginProviderEmail").value = '';
     document.getElementById("loginProviderPassword").value = '';

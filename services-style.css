@@ -139,13 +139,26 @@ input, select{
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
+#serviceDetails{
+    border-left: 10px solid var(--primary);
+    background-color: #ecf4ff;
+}
 #providerDetails{
     text-align: center;
 
     /* position: fixed;
     top: 0;
     left: 0; */
+}
+#providerDetails > h1 {
+    margin: 0;
+    background-color: #ecf4ff;
+    border-bottom: 2px solid var(--primary);
+    border-radius: 0px;
+    color: var(--primary);
+    font-size: 35px;
+    font-weight: 600;
+    padding: 10px;
 }
 
 #providersContainer{

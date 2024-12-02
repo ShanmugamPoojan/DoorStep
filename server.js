@@ -236,6 +236,38 @@ app.get('/providers-details/:providerId', async (req, res) => {
         res.status(500).json({ success: false, message: "Failed to fetch provider details." });
     }
 });
+// Route to fetch service history for a provider
+app.get('/providers/:providerId/service-history', async (req, res) => {
+    const { providerId } = req.params;
+
+    try {
+        const query = `
+            SELECT 
+                sr.request_id,
+                u.name AS user_name,
+                u.email AS user_email,
+                u.phone_number AS user_phone,
+                sp.service_name,
+                sr.request_status,
+                sr.request_date,
+                sr.available_timings,
+                sr.additional_notes
+            FROM service_requests sr
+            JOIN users u ON sr.user_id = u.user_id
+            JOIN services_provided sp ON sr.service_id = sp.service_id
+            WHERE sr.provider_id = ?
+            ORDER BY sr.request_date DESC
+        `;
+
+        const [rows] = await db.query(query, [providerId]);
+
+        res.json({ success: true, serviceHistory: rows });
+    } catch (error) {
+        console.error("Error fetching service history:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch service history." });
+    }
+});
+
 
 
 

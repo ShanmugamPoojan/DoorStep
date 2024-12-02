@@ -167,20 +167,18 @@ form {
     text-align: center;
 }
 
-section {
-    /* margin: 20px; */
-    /* padding: 20px; */
-    /* background: white; */
-    /* border-radius: 8px; */
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  */
-} 
+#loginAlert {
+    background-color: #ecf4ff;
+    border-left: 10px solid var(--primary);
+    color: var(--primary);
+}
 
 .section {
     text-align: center;
-    padding: 20px;
+    /* padding: 20px; */
     background: #f9f9f9;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 10px;
     max-width: 100%;
     margin: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -190,7 +188,21 @@ section {
     margin: 20px;
     text-align: center;
 } */
+#serviceRequests {
+    padding: 0;
+}
+#serviceRequests > h2,#providerServiceHistory > h2{
+    margin: 0;
+    background-color: #ecf4ff;
+    border-bottom: 2px solid var(--primary);
+    border-radius: 10px 10px 0 0;
+    color: var(--primary);
+    font-size: 25px;
+    font-weight: 600;
+    padding: 10px;
+}
 #requestsList{
+    padding: 20px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -233,29 +245,26 @@ section {
 .request-item button:hover {
     background-color: #e60000;
 }
-
+#providerServiceHistory > div{
+    padding: 20px;
+}
 .services-table {
+    /* margin: 20px; */
     width: 100%;
     border-collapse: collapse;
     background: #fff;
-    color: #000;
-    margin: 20px 0;
     font-size: 16px;
     text-align: left;
 }
 
-.services-table th,
-.services-table td {
+.services-table th, .services-table td {
     border: 1px solid #ddd;
-    background: #fff;
-
     padding: 8px;
 }
 
 .services-table th {
-    background-color: #7ebcff;
-    font-weight: bold;
-    text-align: center;
+    background-color: #0073e6;
+    color: white;
 }
 
 .services-table tr:nth-child(even) {
@@ -269,6 +278,7 @@ section {
 .services-table td {
     text-align: center;
 }
+
 
 #editUserForm input{
     width: 50%;

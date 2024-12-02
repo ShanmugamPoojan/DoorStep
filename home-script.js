@@ -158,10 +158,14 @@ function getQueryParam(param) {
 
 document.addEventListener("DOMContentLoaded", () => {
     // fetchUserRequests(1);
-    const userID = getQueryParam("userId");
+    const userId = getQueryParam("userId");
 
-    if (userID) {
-        console.log(userID);
+    if (userId === null || userId.trim() === "") {
+        console.log(userId);
+        document.getElementById("login-button").style.display = "block";
+        document.getElementById("profile-button").style.display = "none";
+        document.getElementById("logout-button").style.display = "none";
+    }else{
         document.getElementById("login-button").style.display = "none";
         document.getElementById("profile-button").style.display = "block";
         document.getElementById("logout-button").style.display = "block";

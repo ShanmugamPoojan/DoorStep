@@ -2,6 +2,7 @@
 
 :root{
     --primary: #0073e6;
+    --second: #ecf4ff;
     --hover: #0056b3;
 }
 *{
@@ -84,7 +85,7 @@ nav ul {
 #searchServices{
     /* min-height: 400px; */
     /* background-image: url(images/serviceProvider.jpg); */
-    background-color: #ecf4ff;
+    background-color: var(--second);
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -124,7 +125,7 @@ section {
 #searchResultCards .service-card{
     width: 100%;
     height: 50px;
-    padding: 10px;
+    padding: 0 10px;
     margin: 10px 0;
     border-left: 10px solid var(--primary);
     background-color: #d8e9ff;
@@ -132,6 +133,7 @@ section {
 #searchResultCards .service-card h3{
     color: var(--hover);
     text-align: left;
+    font-weight: 600;
 }
 
 .show-button, .close-button {
@@ -246,14 +248,13 @@ section {
 /*  */
 .service-category > h3 {
     margin: 0;
-    /* background-color: #007bff; */
+    background-color: var(--second);
     border-bottom: 2px solid var(--primary);
     border-radius: 0px;
     color: var(--primary);
     font-size: 20px;
-    font-weight: normal;
+    font-weight: 500;
     padding: 10px;
-    border-radius: 5px;
 }
 .service-card  h3{
     margin: 10px 0;

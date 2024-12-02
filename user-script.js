@@ -156,7 +156,7 @@ async function fetchUserRequests(userID) {
             const requestsHTML = data.requests.map(request => `
                 <div class="request-item">
                     <h4>${request.service_name}</h4>
-                    <img src="${request.profile_picture}" alt="${request.user_name}">
+                    <img src="${request.profile_picture || "images/img.jpg"}" alt="${request.user_name}">
                     <p><strong>Provider:</strong> ${request.provider_name}</p>
                     <p><strong>Contact:</strong> ${request.phone_number}</p>
                     <p><strong>Status:</strong> ${request.request_status}</p>
@@ -288,7 +288,7 @@ async function handleEditUserDetails(event) {
     const phone = document.getElementById("editUserPhone").value;
     const address = document.getElementById("editUserAddress").value;
 
-    const userID = getQueryParam("userID");
+    const userID = getQueryParam("userId");
 
     try {
         const response = await fetch(`http://localhost:3000/users/${userID}`, {

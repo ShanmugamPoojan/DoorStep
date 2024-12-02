@@ -43,7 +43,7 @@ function displayProviderDetails(serviceId) {
                 const providerCard = document.createElement("div");
                 providerCard.className = "provider-card";
                 providerCard.innerHTML = `
-                    ${provider.profile_picture ? `<img src="${provider.profile_picture}" alt="${provider.provider_name}" />` : ""}
+                    <img src="${provider.profile_picture || "images/img.jpg"}" alt="${provider.provider_name}" />
                     <h3>${provider.provider_name}</h3>
                     <p><strong>Email:</strong> ${provider.email}</p>
                     <p><strong>Phone:</strong> ${provider.phone_number}</p>
@@ -67,7 +67,7 @@ function handleBooking(providerId, serviceId) {
     const userId = urlParams.get("userId");
     console.log(userId);
 
-    if (!userId || userId.trim() === "") {
+    if (userId === null || userId.trim() === "") {
         alert("You need to log-in to book this service provider.");
         // window.location.href = "login.html"; // Redirect to login page
         return;
@@ -129,7 +129,6 @@ function openHomePage(){
     const userId = urlParams.get("userId");
 
     window.location.href = `index.html?userId=${userId}`;
-
 }
 
 document.addEventListener("DOMContentLoaded", () => {
