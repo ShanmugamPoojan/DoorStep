@@ -168,20 +168,25 @@ function displayProviderDetails(provider) {
     document.getElementById("providerDetails").style.display = "block";
     document.getElementById("providerSection").style.display = "none";
 }
-
 async function handleProviderRegister(event) {
     event.preventDefault();
-    fetchCategories();
+
     const providerData = {
-        provider_name: document.getElementById("providerName").value,
-        email: document.getElementById("providerEmail").value,
-        phone_number: document.getElementById("providerPhone").value,
-        address: document.getElementById("providerAddress").value,
-        service_id: document.getElementById("providerCategory").value,
-        new_category: document.getElementById("newCategory").value || null, // Optional new category
-        service_name: document.getElementById("providerService").value,
-        password: document.getElementById("providerPassword").value,
+        provider_name: document.getElementById("providerName").value.trim(),
+        email: document.getElementById("providerEmail").value.trim(),
+        phone_number: document.getElementById("providerPhone").value.trim(),
+        address: document.getElementById("providerAddress").value.trim(),
+        category: document.getElementById("providerCategory").value.trim(),
+        newCategory: document.getElementById("newCategory").value.trim(),
+        service_name: document.getElementById("providerService").value.trim(),
+        password: document.getElementById("providerPassword").value.trim(),
     };
+
+    // Validate the data
+    if (!providerData.provider_name || !providerData.email || !providerData.phone_number || !providerData.password) {
+        alert("Please fill all the required fields.");
+        return;
+    }
 
     try {
         const response = await fetch("http://localhost:3000/providers/register", {
@@ -192,15 +197,16 @@ async function handleProviderRegister(event) {
 
         const data = await response.json();
 
-        if (response.ok) {
-            alert("Registration successful. You can now log in.");
-            showProviderLogin(); // Switch to login view
+        if (response.ok && data.success) {
+            alert("Provider registered successfully!");
+            window.location.reload(); // Or redirect as needed
         } else {
-            alert(data.error || "Registration failed. Please try again.");
+            console.error("Error registering provider:", data.message || "Unknown error");
+            alert(data.message || "Failed to register provider.");
         }
     } catch (error) {
-        console.error("Error registering provider:", error);
-        alert("An error occurred. Please try again later.");
+        console.error("Error during provider registration:", error);
+        alert("An error occurred while registering the provider.");
     }
 }
 

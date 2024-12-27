@@ -19,22 +19,44 @@
         <!-- <h1>Welcome to DoorStep</h1> -->
         <!-- <p>Your one-stop solution for household services</p> -->
         <div>
-            <p id="logo">DoorStep</p>
+            <!-- <p id="logo">DoorStep</p> -->
+            <h1 id="logo">DoorStep</h1>
+            <p id="logo"><small>Convenience Delivered Right to Your Doorstep!</small></p>
         </div>
         <nav>
             <ul>
                 <!-- <li><a href="#services">Services</a></li> -->
-                <li><button class="button" onclick="location.href='#services'">Services</button></li>
-                <li id="profile-button" style="display: none;"><button class="button"  onclick= "openProfilePage()">Profile</button></li>
-                <li id="login-button" style="display: block;"><button class="button"  onclick="showLoginPopup()">Login</button></li>
-                <li id="logout-button" style="display: none;"><button class="button"  onclick="logoutUser()" >Logout</button></li>
-                <li><button class="button" onclick="location.href='#providerPrompt'">Service Provider</button></li>
+                <!-- <li><button class="button" onclick="location.href='#searchServices'">Services</button></li> -->
+                <li id="profile-button" style="display: none;"><button class="button"
+                        onclick="openProfilePage()">Profile</button></li>
+                <li id="login-button" style="display: block;"><button class="button"
+                        onclick="showLoginPopup()">Login</button></li>
+                <li id="logout-button" style="display: none;"><button class="button"
+                        onclick="logoutUser()">Logout</button></li>
+                <!-- <li><button class="button" onclick="location.href='#providerPrompt'">Service Provider</button></li> -->
             </ul>
         </nav>
     </header>
 
     <main>
         <!-- Services Section -->
+        <div id="hero">
+            <div id="hero-info">
+                <h1>Your Trusted Partner for Hassle-Free Home Services</h1>
+                <p>From repairs to cleaning, we connect you with reliable professionals who make your home shine. Quick,
+                    easy, and worry-free.</p>
+                <button class="button" onclick="location.href='#searchServices'">Explore Services</button>
+                <button class="button" onclick="location.href='#providerPrompt'">Join as a Service Provider</button>
+            </div>
+
+            <!-- <div id="hero-info">
+                <h1>Hello</h1>
+            </div>
+            <div id="hero-image">
+
+            </div> -->
+        </div>
+
         <section id="searchServices">
             <input type="text" id="serviceSearch" placeholder="Search for services..." oninput="filterServices()" />
             <div id="searchResults" style="display: none;">
@@ -42,7 +64,7 @@
                 <div id="searchResultCards"></div>
             </div>
         </section>
-        
+
         <section id="services">
             <h2>Our Services</h2>
             <div id="serviceCategories">
@@ -51,27 +73,18 @@
         </section>
 
         <!-- Service Provider Prompt -->
-        <section id="providerPrompt" style="display: block;">
+        <section id="providerPrompt">
             <div>
-                <div>
-                    <img src="images/serviceProvider.jpg" alt="providerImage">
-                </div>
-                <div>
-                    <h2>Interested in Providing Services?</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum animi similique, ea vitae atque ad
-                        voluptatum temporibus aspernatur tempore quam eveniet pariatur, sint molestiae asperiores
-                        architecto
-                        cupiditate libero impedit voluptate praesentium! Fuga eveniet, officiis molestiae at corporis,
-                        nam
-                        saepe eligendi in dolores vitae nulla animi laudantium neque magnam suscipit blanditiis. Et
-                        debitis
-                        unde atque nesciunt nam harum quod nihil quam. Iure quidem tempore nisi quam corrupti tenetur
-                        laborum est blanditiis dicta accusamus? Expedita, facere quisquam. Asperiores expedita officia,
-                        delectus velit doloribus nesciunt quos dolorum ut aut exercitationem quaerat, vel ratione
-                        eveniet
-                        labore voluptas sapiente sed ullam error, magnam molestiae vero?</p>
-                    <button class="button" onclick= "window.open('provider-profile.html')">Become a Service Provider</button>
-                </div>
+                <img src="images/serviceProvider.jpg" alt="providerImage">
+            </div>
+            <div>
+                <h2>Interested in Providing Services?</h2>
+                <p>Are you a skilled professional or business owner looking to expand your reach and grow your
+                    customer base? We are always looking for reliable, high-quality service providers to join our
+                    platform and deliver top-notch services to our customers. Whether you're an expert in home
+                    cleaning, plumbing, delivery, or any other service, we want to hear from you.</p>
+                <button class="button" onclick="window.open('provider-profile.html')">Become a Service
+                    Provider</button>
             </div>
         </section>
 
@@ -101,7 +114,7 @@
                         <input type="password" id="userPassword" name="password" required placeholder="Password">
                         <button type="submit" class="button">Register</button>
                         <button onclick="closeLoginPopup()" class="button">Cancel</button>
-                        <p>Already have an account? <span class="link" onclick="showUserLogin()">Login here</span></p>
+                        <p>Already have an account? <span class="link" onclick="showLoginPopup()">Login here</span></p>
                     </form>
                 </div>
             </div>
@@ -131,8 +144,8 @@
         </div>
     </footer>
 
-    <!-- <script src="login.js"></script> -->
     <script src="home-script.js"></script>
+    <!-- <script src="user-script.js"></script> -->
 </body>
 
 </html>

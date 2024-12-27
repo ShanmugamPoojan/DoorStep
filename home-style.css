@@ -12,7 +12,7 @@
 }
 body {
     margin: 0;
-    margin-top: 100px;
+    /* margin-top: 100px; */
     padding: 0;
     /* background: #f4f4f4; */
 }
@@ -30,9 +30,10 @@ header {
     padding:  10px 40px;
     background: #fff;
     color: var(--primary);
+    background-color: var(--second);
     display: flex;
     justify-content: space-between;
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     left: 0;
     z-index: 4;
@@ -42,11 +43,12 @@ header {
 }
 
 #logo{
-    font-size: 50px;
+    /* font-size: 50px; */
     margin: 0;
     padding: 0;
+    text-align: left;
     /* color: #0073e6; */
-    font-weight: bolder;
+    /* font-weight: bolder; */
 }
 nav {
     display: flex;
@@ -82,9 +84,27 @@ nav ul {
     background-color: var(--hover);
 } 
 
+#hero{
+    padding: 40px 100px;
+    height: 500px;
+    background-image: url(images/hero2.jpg); 
+    background-size: cover;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#hero-info{
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #00000048;
+}
+
 #searchServices{
     /* min-height: 400px; */
-    /* background-image: url(images/serviceProvider.jpg); */
     background-color: var(--second);
     background-size: cover;
     background-repeat: no-repeat;
@@ -111,7 +131,7 @@ section {
 
 #searchResults {
     margin: 20px auto;
-    width: 50vw;
+    width: 80%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -124,7 +144,7 @@ section {
 
 #searchResultCards .service-card{
     width: 100%;
-    height: 50px;
+    /* height: 60px; */
     padding: 0 10px;
     margin: 10px 0;
     border-left: 10px solid var(--primary);
@@ -152,12 +172,12 @@ section {
 }
 
 #serviceCategories {
-    width: 90%;
+    /* width: 90%; */
     margin: 0 auto;
 }
 
 #services > h2{
-    margin:  10px 30px;
+    margin:  0;
     background-color: var(--primary);
     border: 2px solid var(--primary);
     /* border-radius: 50px; */
@@ -167,8 +187,12 @@ section {
     border-radius: 5px;
 }
 .service-category {
+    margin: 20px;
     /* background-color: #fff; */
-    padding: 10px;
+    /* border: 2px solid var(--primary); */
+    box-shadow: 0 0 5px gray;
+    border-radius: 20px;
+    /* padding: 10px; */
     text-align: left;
     transition: transform 0.3s;
     cursor: pointer;
@@ -250,14 +274,15 @@ section {
     margin: 0;
     background-color: var(--second);
     border-bottom: 2px solid var(--primary);
-    border-radius: 0px;
+    border-radius: 20px 20px 0 0;
     color: var(--primary);
     font-size: 20px;
     font-weight: 500;
     padding: 10px;
 }
 .service-card  h3{
-    margin: 10px 0;
+    /* margin: 10px 0; */
+    color: var(--primary);
     padding: 0;
 }
 .service-card:hover {
@@ -364,11 +389,13 @@ form {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#providerPrompt>div{
+#providerPrompt{
     display: flex;
     gap: 20px;
 }
-
+#providerPrompt > div{
+    width: 50%;
+}
 #providerPrompt p{
     text-align: justify;
 }
@@ -376,7 +403,7 @@ form {
 #providerPrompt img{
     margin: auto;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     object-fit: cover;
 }
 
@@ -395,33 +422,13 @@ form {
 #footer-content {
     display: flex;
     justify-content: space-around;
+    flex-direction: row;
+    gap: 20px;
+}
+#footer-content div{
+    width: 50%;
 }
 
-
-@media (max-width: 1024px) {
-
-    nav ul {
-        flex-direction: row;
-        gap: 5px;
-    }
-
-    #searchResults {
-        width: 70%;
-    }
-
-    .service-cards {
-        margin: 0 20px;
-    }
-
-    .service-card {
-        width: 200px;
-    }
-
-    #footer-content {
-        flex-direction: column;
-        text-align: center;
-    }
-}
 
 @media (max-width: 768px) {
 
@@ -462,7 +469,7 @@ form {
     }
 
     #footer-content {
-        flex-direction: column;
+        flex-direction: row;
     }
 }
 
@@ -497,7 +504,7 @@ form {
     }
 
     .service-category h3 {
-        font-size: 1.2em;
+        /* font-size: 1.2em; */
     }
 
     form input,

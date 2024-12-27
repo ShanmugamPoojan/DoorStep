@@ -209,7 +209,7 @@ async function fetchCompletedServices(userID) {
             completedServicesHTML += data.requests.map(request => `
                 <tr>
                     <td>${request.service_name}</td>
-                    <td>${request.user_name}</td>
+                    <td>${request.provider_name}</td>
                     <td>${request.phone_number}</td>
                     <td>${new Date(request.request_date).toLocaleString()}</td>
                     <td>${request.available_timings}</td>

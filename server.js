@@ -31,6 +31,16 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
+// Add user
+app.post('/users', (req, res) => {
+    const { name, email, phone, address } = req.body;
+    db.query('INSERT INTO users (name, email, phone_number, address) VALUES (?, ?, ?, ?)',
+        [name, email, phone, address], 
+        (err) => {
+            if (err) return res.status(500).send(err);
+            res.json({ message: 'User registered successfully!' });
+        });
+});
 
 // Fetch providers
 app.get('/providers', async (req, res) => {
@@ -66,16 +76,7 @@ app.get('/services', async (req, res) => {
 });
 
 
-// Add user
-app.post('/users', (req, res) => {
-    const { name, email, phone, address } = req.body;
-    db.query('INSERT INTO users (name, email, phone_number, address) VALUES (?, ?, ?, ?)',
-        [name, email, phone, address], 
-        (err) => {
-            if (err) return res.status(500).send(err);
-            res.json({ message: 'User registered successfully!' });
-        });
-});
+
 
 // Add provider
 app.post('/providers', (req, res) => {

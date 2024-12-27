@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("serviceCategories").innerHTML = "<p>Error loading services. Please try again later.</p>";
         });
 });
+
 function filterServices() {
     const searchTerm = document.getElementById("serviceSearch").value.toLowerCase();
     const searchResultsSection = document.getElementById("searchResults");
@@ -160,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // fetchUserRequests(1);
     const userId = getQueryParam("userId");
 
-    if (userId === null || userId.trim() === "") {
+    if (userId === "null" || userId.trim() === "" || userId === null) {
         console.log(userId);
         document.getElementById("login-button").style.display = "block";
         document.getElementById("profile-button").style.display = "none";
@@ -176,12 +177,20 @@ document.addEventListener("DOMContentLoaded", () => {
 function showLoginPopup() {
     document.getElementById("overlay").style.display = "block";
     document.getElementById("userLoginPopup").style.display = "block";
+    document.getElementById("userLogin").style.display = "block";
+    document.getElementById("userRegister").style.display = "none";
 }
 
 // Function to close the login popup
 function closeLoginPopup() {
     document.getElementById("overlay").style.display = "none";
     document.getElementById("userLoginPopup").style.display = "none";
+}
+
+function showUserRegister(){
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("userRegister").style.display = "block";
+    document.getElementById("userLogin").style.display = "none";
 }
 
 // Function to handle user login
@@ -246,4 +255,36 @@ function openProfilePage(){
     const userId = urlParams.get("userId");
 
     window.location.href = `user-profile.html?userId=${userId}`;
+}
+
+
+// Function to handle user registration
+async function handleUserRegister(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("userName").value;
+    const email = document.getElementById("userEmail").value;
+    const phone = document.getElementById("userPhone").value;
+    const address = document.getElementById("userAddress").value;
+    const password = document.getElementById("userPassword").value;
+
+    try {
+        const response = await fetch("http://localhost:3000/users/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, phone, address, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Registration successful! Please log in.");
+            showUserLogin();
+        } else {
+            alert(data.error || "Registration failed. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error during registration:", error);
+        alert("An error occurred. Please try again later.");
+    }
 }

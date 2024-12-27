@@ -67,7 +67,7 @@ function handleBooking(providerId, serviceId) {
     const userId = urlParams.get("userId");
     console.log(userId);
 
-    if (userId === null || userId.trim() === "") {
+    if (userId === "null"|| userId.trim() === "" || userId === null) {
         alert("You need to log-in to book this service provider.");
         // window.location.href = "login.html"; // Redirect to login page
         return;
